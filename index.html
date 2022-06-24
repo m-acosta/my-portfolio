@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Michael Acosta Portfolio Website</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" integrity="sha256-46qynGAkLSFpVbEBog43gvNhfrOj+BmwXdxFgVK/Kvc=" crossorigin="anonymous" />  
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400,900|Source+Sans+Pro:300,900&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="css/style.css">
+
+    </head>
+    <body>
+        <header>
+            <div class="logo">
+                <img src="img/mdacosta-logo.png" alt="">
+            </div>
+            <button class="nav-toggle" aria-label="toggle navigation">
+                <span class="hamburger"></span>
+            </button>
+            <nav class="nav">
+                <ul class="nav__list">
+                    <li class="nav__item"><a href="#home" class="nav__link">Home</a></li>
+                    <li class="nav__item"><a href="#services" class="nav__link">My Services</a></li>
+                    <li class="nav__item"><a href="#about" class="nav__link">About Me</a></li>
+                    <li class="nav__item"><a href="#work" class="nav__link">My work</a></li>
+                </ul>
+            </nav>
+        </header>
+        
+        <!-- Introduction -->
+        <section class="intro" id="home">
+            <h1 class="section__title section__title--intro">
+                Hi, I am <strong>Michael Acosta</strong>
+            </h1>
+            <p class="section__subtitle section__subtitle--intro">software engineer</p>
+            <img src="img/michael-01.JPG" alt="" class="intro__img">
+        </section>
+        
+        
+        <!-- My services -->
+        <section class="my-services" id="services">
+            <h2 class="section__title section__title--services">What I do</h2>
+            <div class="services">
+                <div class="service">
+                    <h3>Development</h3>
+                    <p>With a variety of programming languages, I have written software to achieve a project's goals. In the section about my work, you can follow links to some of these projects. </p>
+                </div> <!-- / service -->
+                
+                <div class="service">
+                    <h3>Systems Engineer</h3>
+                    <p>In my professional experience, I have maintained requirements and software design documents (SDDs). My team coordinated on use case diagrams for new functionality. This design work supported the current state of the software and the features to come.</p>
+                </div> <!-- / service -->
+                
+                <div class="service">
+                    <h3>Software Testing</h3>
+                    <p>I have also worked as a software test RE on a multi-disciplinary team. With the help of my team, I developed automated tests in Python to validate functionality against system requirements. These tests ran nightly to ensure that the existing functionality was maintained. As the software evolved, new tests were developed to ensure full code coverage.</p>
+                </div> <!-- / service -->
+            </div> <!-- / services -->
+            
+            <a href="#work" class="btn">My work</a>
+        </section>
+        
+        
+        <!-- About me -->
+        <section class="about-me" id="about">
+           <h2 class="section__title section__title--about">Who I am</h2>
+           <p class="section__subtitle section__subtitle--about">Developer located in LA</p>
+           
+           <div class="about-me__body">
+               <p>I am currently pursuing a Master's degree in Computer Science at Cal Poly Pomona. My career goals have been to seek out opportunities to learn about software, and business as a whole. That led me to learn about systems engineering and software testing.</p>
+               <p>I am passionate about creating software that helps people. Technology can empower big ideas, and I want to support ideas that will help the world.</p>
+               <p>Pictured here is my family of 3. We are big fans of Disney movies. Cinderelly and Bluey are currently the go-to choices.</p>
+           </div>
+           
+           <img src="img/michael-02.jpg" alt="" class="about-me__img">
+        </section>
+        
+        <!-- My Work -->
+        <section class="my-work" id="work">
+            <h2 class="section__title section__title--work">My work</h2>
+            <p class="section__subtitle section__subtitle--work">A selection of my range of work</p>
+            
+            <div class="portfolio">
+                <!-- Portfolio item 01 -->
+                <a href="https://michaeldacosta2013.wixsite.com/abc-123-learn" class="portfolio__item">
+                    <img src="img/portfolio-01.png" alt="" class="portfolio__img">
+                </a>
+                
+                <!-- Portfolio item 02 -->
+                <!-- <a class="portfolio__item">
+                    <img src="img/portfolio-02.jpg" alt="" class="portfolio__img">
+                </a> -->
+            </div>
+        </section>
+        
+        
+        <!-- Footer -->
+        <footer class="footer">
+            <a href="mailto:michaeldacosta2013@gmail.com" class="footer__link">michaeldacosta2013@gmail.com</a>
+            <ul class="social-list">
+                <li class="social-list__item">
+                    <a class="social-list__link" href="https://www.linkedin.com/in/michael-acosta-95466094/">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                </li>
+                <li class="social-list__item">
+                    <a class="social-list__link" href="https://github.com/m-acosta">
+                        <i class="fab fa-github"></i>
+                    </a>
+                </li>
+            </ul>
+        </footer>
+        
+        <script src="js/index.js"></script>
+        
+    </body>
+</html>
