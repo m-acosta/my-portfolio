@@ -230,7 +230,7 @@ header {
 
 .service {
     max-width: 500px;
-    text-align: justify;
+    text-align: center;
     display: flex;
     flex-direction: column;
     align-items: stretch;
