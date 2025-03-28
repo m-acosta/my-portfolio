@@ -22,7 +22,7 @@ let cards = [...defaultCards];
 let currentIndex = 0;
 
 // Centralized animation duration (in milliseconds)
-const ANIMATION_DURATION = 800;
+const ANIMATION_DURATION = 700;
 
 /**
  * Updates the content of the card displayed on the screen.

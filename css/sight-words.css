@@ -1,14 +1,16 @@
+/* General body styling */
 body {
     font-family: Arial, sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #fef6e4; /* Light cream background for contrast */
+    background-color: #fef6e4;
     margin: 0;
-    color: #333333; /* Dark gray text for readability */
+    color: #333333;
 }
 
+/* Main container for the flashcards */
 .container {
     position: relative;
     display: flex;
@@ -16,63 +18,67 @@ body {
     align-items: center;
     width: 100%;
     height: auto;
-    transform: scale(1.0); /* Default scale */
-    transform-origin: center; /* Ensure scaling happens from the center */
+    max-height: 100vh;
+    transform: scale(1.0);
+    transform-origin: center;
 }
 
+/* Flashcard styling */
 .card {
-    width: 90%; /* Adjust width to be responsive */
-    max-width: 550px; /* Maintain a maximum width */
-    height: auto; /* Allow height to adjust proportionally */
-    aspect-ratio: 4 / 3; /* Maintain aspect ratio */
-    background: #ffffff; /* White card background */
+    width: 90%;
+    max-width: 75vh;
+    height: auto;
+    max-height: 75vh;
+    aspect-ratio: 4 / 3;
+    background: #ffffff;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 3vw; /* Use viewport width for font size */
+    font-size: 3vw;
     text-align: center;
     cursor: pointer;
     transform: rotateY(0deg);
     transition: transform 0.6s;
     position: relative;
-    color: #333333; /* Dark gray text */
+    color: #333333;
     margin: 1em;
 }
 
+/* Card counter styling */
 .card-counter {
-    position: absolute; /* Position relative to its normal flow */
-    bottom: -1em; /* Add spacing below the card */
-    left: 50%; /* Center horizontally */
-    transform: translateX(-50%); /* Adjust for centering */
-    text-align: center; /* Center the text */
+    position: absolute;
+    bottom: -1em;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
     font-size: 1.2em;
     font-weight: bold;
-    display: block; /* Ensure it appears on its own line */
+    display: block;
 }
 
 /* Shared button styles */
 .button {
-    color: #ffffff; /* White text */
-    border: none; /* Remove border */
-    border-radius: 50%; /* Make it circular */
-    width: 60px; /* Button size */
+    color: #ffffff;
+    border: none;
+    border-radius: 50%;
+    width: 60px;
     height: 60px;
-    display: flex; /* Center content */
-    align-items: center; /* Center content vertically */
-    justify-content: center; /* Center content horizontally */
-    cursor: pointer; /* Pointer cursor on hover */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Consistent shadow */
-    font-size: 0.8em; /* Adjust font size for icons or text */
-    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-size: 0.8em;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .button:hover {
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2); /* Slightly deeper shadow on hover */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* Specific styles for different buttons */
+/* Check button styling */
 .check-button {
     background-color: #4caf50;
     position: absolute;
@@ -85,6 +91,7 @@ body {
     background-color: #43a047;
 }
 
+/* Floating Action Button (FAB) styling */
 .fab {
     background-color: #2196f3;
     position: fixed;
@@ -96,6 +103,7 @@ body {
     background-color: #1976d2;
 }
 
+/* Navigation button styling */
 .nav-button {
     background-color: #ffcc00;
 }
@@ -104,6 +112,7 @@ body {
     background-color: #e6b800;
 }
 
+/* Animation for green fill effect */
 @keyframes greenFill {
     0% {
         transform: translate(-50%, -50%) scale(0);
@@ -135,33 +144,34 @@ body {
     z-index: -1;
 }
 
+/* FAB container and dropdown menu */
 .fab-container {
     position: fixed;
     bottom: 20px;
     right: 20px;
     display: flex;
     flex-direction: column;
-    align-items: flex-end; /* Align dropdown to the right */
+    align-items: flex-end;
 }
 
 .fab-dropdown {
-    display: none; /* Hide dropdown by default */
+    display: none;
     flex-direction: column;
-    align-items: flex-end; /* Align options to the right */
-    gap: 10px; /* Space between the options */
-    margin-top: 10px; /* Space between the FAB and the dropdown */
+    align-items: flex-end;
+    gap: 10px;
+    margin-top: 10px;
 }
 
 .fab-dropdown.show {
-    display: flex; /* Show dropdown when toggled */
+    display: flex;
 }
 
 .fab-option {
-    background-color: #2196f3; /* Option button color */
+    background-color: #2196f3;
     color: white;
     border: none;
-    border-radius: 10px; /* Rounded rectangle buttons */
-    padding: 10px 20px; /* Add padding for a dropdown menu look */
+    border-radius: 10px;
+    padding: 10px 20px;
     cursor: pointer;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     width: 100px;
@@ -170,31 +180,95 @@ body {
 }
 
 .fab-option:hover {
-    background-color: #1976d2; /* Darker orange on hover */
+    background-color: #1976d2;
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
 }
 
 .fab-option i {
-    margin-right: 8px; /* Add spacing between the icon and the text */
-    vertical-align: middle; /* Align the icon vertically with the text */
+    margin-right: 8px;
+    vertical-align: middle;
 }
 
+/* Responsive design for medium screens (up to 768px) */
 @media (max-width: 768px) {
     .container {
-        transform: scale(0.8); /* Scale down for smaller screens */
+        transform: scale(0.8);
     }
 
     .card {
-        font-size: 3vw; /* Adjust font size for smaller screens */
+        aspect-ratio: 4 / 3;
+        font-size: 3vw;
     }
 }
 
+/* Responsive design for small screens (up to 480px) */
 @media (max-width: 480px) {
     .container {
-        transform: scale(0.6); /* Further scale down for very small screens */
+        transform: scale(0.6);
     }
 
     .card {
-        font-size: 4vw; /* Adjust font size further */
+        aspect-ratio: 4 / 3;
+        font-size: 4vw;
+        margin: 0.5em; 
+        padding: 0.5em;
+    }
+
+    .nav-button {
+        margin: 0.2em; 
+        width: 50px;
+        height: 50px;
+    }
+}
+
+/* Responsive design for mobile landscape orientation (up to 768px) */
+@media (max-width: 768px) and (orientation: landscape) {
+    .container {
+        transform: scale(0.7); /* Scale down the container */
+    }
+
+    .card {
+        aspect-ratio: 4 / 3;
+        font-size: 2.5vw;
+        max-height: 85vh;
+        max-width: 90%;
+    }
+}
+
+/* Adjust for mobile portrait orientation (up to 480px) */
+@media (max-width: 480px) and (orientation: portrait) {
+    .container {
+        transform: scale(0.9); /* Slightly reduce scaling for better visibility */
+        padding: 0.5em; /* Add some padding for spacing */
+    }
+
+    .card {
+        aspect-ratio: 4 / 3;
+        font-size: 5vw; /* Increase font size for better readability */
+        margin: 0.5em; /* Keep minimal margin */
+        padding: 1em; /* Add padding inside the card */
+        max-width: 95%; /* Ensure the card fits within the screen */
+        max-height: 80vh; /* Prevent the card from being too tall */
+    }
+
+    .nav-button {
+        margin: 0.1em; /* Reduce margin to bring buttons closer to the edges */
+        width: 60px; /* Slightly larger buttons for easier tapping */
+        height: 60px;
+    }
+
+    .card-counter {
+        font-size: 1.5em; /* Increase font size for better visibility */
+    }
+
+    .fab-container {
+        bottom: 10px; /* Move FAB closer to the bottom */
+        right: 10px; /* Adjust FAB position */
+    }
+
+    .fab-option {
+        width: 80px; /* Reduce FAB option size */
+        height: 60px;
+        font-size: 0.9em; /* Adjust font size for FAB options */
     }
 }
