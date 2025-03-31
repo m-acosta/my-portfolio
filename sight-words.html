@@ -45,10 +45,10 @@
 
         <!-- Dropdown menu for FAB options -->
         <div class="fab-dropdown">
-            <!-- Button to reset the cards -->
-            <button class="button fab-option" onclick="resetCards()">
-                <i class="fas fa-redo"></i> Reset <!-- Font Awesome redo icon -->
-            </button>
+
+            <!-- Button to change the list of cards -->
+            <button class="button fab-option" onclick="openModal()">
+                <i class="fas fa-list"></i> Change List <!-- Font Awesome list icon -->
 
             <!-- Button to shuffle the cards -->
             <button class="button fab-option" onclick="shuffleCards()">
@@ -59,6 +59,33 @@
             <button class="button fab-option" onclick="toggleFab()">
                 <i class="fas fa-times"></i> Close <!-- Font Awesome close icon -->
             </button>
+        </div>
+    </div>
+
+    <!-- Modal for editing word list -->
+    <div id="wordModal" class="modal">
+        <div class="modal-content">
+            <h2 id="modalHeader">Edit Word List</h2>
+            <div class="word-columns">
+                <!-- Current list of words -->
+                <div class="word-column">
+                    <h3 id="currentWordsHeader">Current Words</h3>
+                    <ul id="currentWords" class="word-list">
+                        <!-- Words will be dynamically populated -->
+                    </ul>
+                </div>
+                <!-- Possible additions -->
+                <div class="word-column">
+                    <h3 id="availableWordsHeader">Available Words</h3>
+                    <ul id="availableWords" class="word-list">
+                        <!-- Words will be dynamically populated -->
+                    </ul>
+                </div>
+            </div>
+            <div class="button-container">
+                <button class="button fab-option save-button" onclick="saveWordChanges()">Save</button>
+                <button class="button fab-option cancel-button" onclick="closeModal()">Cancel</button>
+            </div>
         </div>
     </div>
 

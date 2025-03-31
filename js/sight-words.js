@@ -1,19 +1,8 @@
 // Message displayed when there are no more cards
-const NO_MORE_CARDS_MESSAGE = "No more cards!";
+const NO_MORE_CARDS_MESSAGE = "You finished all the cards!";
 
 // Default set of cards with sight words
-let defaultCards = [
-    { front: "go" },
-    { front: "the" },
-    { front: "see" },
-    { front: "a" },
-    { front: "I" },
-    { front: "and" },
-    { front: "you" },
-    { front: "me" },
-    { front: "is" },
-    { front: "no" }
-];
+let defaultCards = ["go", "the", "see", "a", "I", "and", "you", "me", "is", "no"];
 
 // Current deck of cards (can be shuffled or reset)
 let cards = [...defaultCards];
@@ -23,6 +12,13 @@ let currentIndex = 0;
 
 // Centralized animation duration (in milliseconds)
 const ANIMATION_DURATION = 700;
+
+// Additional words for the modal
+let availableWords = [
+    "saw", "he", "has", "can", "here", "for", "like", "what", "play", "this", 
+    "are", "have", "come", "want", "she", "do", "my", "one", "big", "to", 
+    "said", "put", "of", "little", "look", "jump", "we", "too", "with"
+];
 
 /**
  * Updates the content of the card displayed on the screen.
@@ -35,7 +31,7 @@ function updateCard() {
 
     // Create and append the card text
     const textNode = document.createElement("span");
-    textNode.textContent = cards[currentIndex]?.front || NO_MORE_CARDS_MESSAGE;
+    textNode.textContent = cards[currentIndex] || NO_MORE_CARDS_MESSAGE;
     card.appendChild(textNode);
 
     // Create and append the check button
@@ -78,7 +74,8 @@ function handleCheckButtonClick(event) {
 
         // Remove the current card from the deck
         if (cards.length > 0) {
-            cards.splice(currentIndex, 1);
+            const removedWord = cards.splice(currentIndex, 1);
+            availableWords.push(removedWord);
         }
 
         // Ensure the current index does not exceed the bounds of the deck
@@ -86,6 +83,7 @@ function handleCheckButtonClick(event) {
 
         // Update the card counter and display the next card
         updateCardCounter();
+        updateWordHeaders(); 
 
         if (cards.length === 0) {
             card.innerHTML = NO_MORE_CARDS_MESSAGE; // Show message if no cards remain
@@ -145,6 +143,7 @@ function shuffleCards() {
     const card = document.getElementById("card");
     card.textContent = "Shuffling...";
     setTimeout(updateCard, ANIMATION_DURATION); // Use centralized animation duration
+
 }
 
 /**
@@ -176,6 +175,122 @@ function toggleFab() {
     } else {
         fabButton.style.display = 'flex';
     }
+}
+
+document.addEventListener("click", (event) => {
+    const fabDropdown = document.querySelector('.fab-dropdown');
+    const fabButton = document.querySelector('.fab-start');
+
+    if (fabDropdown.classList.contains('show') &&
+        !fabButton.contains(event.target)) {
+        toggleFab(); // Hide the dropdown if clicked outside
+    }
+});
+
+/**
+ * Updates the headers with the count of current and available words.
+ */
+function updateWordHeaders() {
+    const currentCount = cards.length; // Count of current words
+    const availableCount = availableWords.length; // Count of available words
+
+    // Update the headers with the counts
+    const currentWordsHeader = document.getElementById("currentWordsHeader");
+    const availableWordsHeader = document.getElementById("availableWordsHeader");
+
+    currentWordsHeader.textContent = `Current Words: ${currentCount}`;
+    availableWordsHeader.textContent = `Available Words: ${availableCount}`;
+}
+
+/**
+ * Opens the modal and populates the word lists.
+ */
+function openModal() {
+    populateWordLists();
+    updateWordHeaders(); // Update the headers with word counts
+    document.getElementById("wordModal").style.display = "flex";
+}
+
+/**
+ * Closes the modal.
+ */
+function closeModal() {
+    document.getElementById("wordModal").style.display = "none";
+}
+
+/**
+ * Populates the current and available word lists in the modal.
+ */
+function populateWordLists() {
+    const currentList = document.getElementById("currentWords");
+    const availableList = document.getElementById("availableWords");
+
+    currentList.innerHTML = "";
+    availableList.innerHTML = "";
+
+    cards.forEach(card => {
+        const li = createWordListItem(card, "current");
+        currentList.appendChild(li);
+    });
+
+    availableWords.forEach(word => {
+        const li = createWordListItem(word, "available");
+        availableList.appendChild(li);
+    });
+}
+
+/**
+ * Creates a list item for a word.
+ * @param {string} word - The word to display.
+ * @param {string} type - The type of list ("current" or "available").
+ * @returns {HTMLElement} - The list item element.
+ */
+function createWordListItem(word, type) {
+    const li = document.createElement("li");
+    li.textContent = word;
+    li.draggable = true;
+
+    li.addEventListener("click", () => moveWord(word, type));
+    li.addEventListener("dragstart", (e) => e.dataTransfer.setData("text", word));
+    li.addEventListener("dragover", (e) => e.preventDefault());
+    li.addEventListener("drop", (e) => handleDrop(e, type));
+
+    return li;
+}
+
+/**
+ * Moves a word between the current and available lists.
+ * @param {string} word - The word to move.
+ * @param {string} fromType - The source list type ("current" or "available").
+ */
+function moveWord(word, fromType) {
+    if (fromType === "current") {
+        cards = cards.filter(card => card !== word);
+        availableWords.push(word);
+    } else {
+        availableWords = availableWords.filter(w => w !== word);
+        cards.push(word);
+    }
+    populateWordLists();
+    updateWordHeaders(); // Update the headers after moving words
+}
+
+/**
+ * Handles the drop event for drag-and-drop functionality.
+ * @param {DragEvent} event - The drag event.
+ * @param {string} type - The target list type ("current" or "available").
+ */
+function handleDrop(event, type) {
+    const word = event.dataTransfer.getData("text");
+    moveWord(word, type === "current" ? "available" : "current");
+}
+
+/**
+ * Saves the changes made in the modal and updates the cards.
+ */
+function saveWordChanges() {
+    updateCard(); // Refresh the card display
+    closeModal();
 }
 
 // Initialize the first card when the page loads
