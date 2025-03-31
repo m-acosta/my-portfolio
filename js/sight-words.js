@@ -36,7 +36,7 @@ function updateCard() {
 
     // Create and append the check button
     let button = document.createElement("button");
-    button.className = "button check-button";
+    button.className = "button check-button bg-success";
     button.innerHTML = '<i class="fas fa-check"></i>';
     button.addEventListener("click", handleCheckButtonClick); // Attach click event
     card.appendChild(button);
@@ -65,7 +65,7 @@ function handleCheckButtonClick(event) {
 
     // Temporarily display a success message
     card.innerHTML = `<span>Good job!</span>
-                      <button class="button check-button">
+                      <button class="button check-button bg-success">
                           <i class="fas fa-check"></i>
                       </button>`;
 

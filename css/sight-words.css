@@ -19,8 +19,6 @@ body {
     width: 100%;
     height: auto;
     max-height: 100vh;
-    transform: scale(1.0);
-    transform-origin: center;
 }
 
 /* Flashcard styling */
@@ -42,8 +40,18 @@ body {
     transform: rotateY(0deg);
     transition: transform 0.6s;
     position: relative;
-    color: #333333;
     margin: 1em;
+}
+
+/* Rotate cards in portrait mode while keeping contents legible */
+@media (orientation: portrait) {
+    .card {
+        transform: rotate(90deg);
+    }
+
+    .card > * {
+        transform: rotate(-90deg);
+    }
 }
 
 /* Card counter styling */
@@ -80,27 +88,20 @@ body {
 
 /* Check button styling */
 .check-button {
-    background-color: #4caf50;
     position: absolute;
     top: 10px;
     right: 10px;
     font-size: 0.8em;
 }
 
-.check-button:hover {
-    background-color: #388e3c;
-}
-
 /* Floating Action Button (FAB) styling */
 .fab {
-    background-color: #2196f3;
     position: fixed;
     bottom: 20px;
     right: 20px;
 }
 
 .fab:hover {
-    background-color: #1976d2;
 }
 
 /* Navigation button styling */
@@ -132,7 +133,6 @@ body {
 .card.animate-green::after {
     content: "";
     position: absolute;
-    z-index: 1;
     top: 50%;
     left: 50%;
     width: 300%;
@@ -167,7 +167,6 @@ body {
 }
 
 .fab-option {
-    background-color: #2196f3;
     color: white;
     border: none;
     border-radius: 10px;
@@ -180,7 +179,6 @@ body {
 }
 
 .fab-option:hover {
-    background-color: #1976d2;
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
 }
 
@@ -210,14 +208,12 @@ body {
     width: 80%;
     max-width: 600px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    color: #333333;
 }
 
 .modal-content h2 {
     text-align: center;
     font-size: 1.8em;
     margin-bottom: 20px;
-    color: #333333;
 }
 
 .modal-content .button-container {
@@ -231,22 +227,6 @@ body {
     padding: 10px 20px;
 }
 
-.save-button {
-    background-color: #4caf50;
-}
-
-.save-button:hover {
-    background-color: #388e3c;
-}
-
-.cancel-button {
-    background-color: #f44336;
-}
-
-.cancel-button:hover {
-    background-color: #d32f2f;
-}
-
 .word-columns {
     display: flex;
     justify-content: space-between;
@@ -257,6 +237,32 @@ body {
     flex: 1;
 }
 
+/* Color utility classes */
+.bg-primary {
+    background-color: #2196f3;
+}
+
+.bg-primary-hover:hover {
+    background-color: #1976d2;
+}
+
+.bg-success {
+    background-color: #4caf50;
+}
+
+.bg-success-hover:hover {
+    background-color: #388e3c;
+}
+
+.bg-danger {
+    background-color: #f44336;
+}
+
+.bg-danger-hover:hover {
+    background-color: #d32f2f;
+}
+
+/* Update existing styles to use utility classes */
 .word-list {
     list-style: none;
     padding: 0;
@@ -280,80 +286,74 @@ body {
 }
 
 .word-list li:hover {
-    background-color: #1976d2;
     transform: scale(1.05);
 }
 
+/* Media query for screens smaller than 768px (tablets and mobile devices) */
 @media (max-width: 768px) {
-    .container {
-        transform: scale(0.8);
-    }
-
     .card {
-        aspect-ratio: 4 / 3;
-        font-size: 3vw;
-    }
-
-    .word-list {
-        column-count: 1;
-    }
-}
-
-@media (max-width: 480px) {
-    .container {
-        transform: scale(0.6);
-    }
-
-    .card {
-        aspect-ratio: 4 / 3;
-        font-size: 4vw;
-        margin: 0.5em;
-        padding: 0.5em;
-    }
-
-    .nav-button {
-        margin: 0.2em;
-        width: 50px;
-        height: 50px;
-    }
-}
-
-@media (max-width: 768px) and (orientation: landscape) {
-    .container {
-        transform: scale(0.7);
-    }
-
-    .card {
-        aspect-ratio: 4 / 3;
-        font-size: 2.5vw;
-        max-height: 85vh;
-        max-width: 90%;
-    }
-}
-
-@media (max-width: 480px) and (orientation: portrait) {
-    .container {
-        transform: scale(0.9);
-        padding: 0.5em;
-    }
-
-    .card {
-        aspect-ratio: 4 / 3;
         font-size: 5vw;
-        margin: 0.5em;
-        padding: 1em;
-        max-width: 95%;
-        max-height: 80vh;
-    }
-
-    .nav-button {
-        margin: 0.1em;
-        width: 60px;
-        height: 60px;
+        max-width: 90vw;
+        max-height: 90vh;
     }
 
     .card-counter {
-        font-size: 1.5em;
+        font-size: 1em;
+    }
+
+    .fab {
+        bottom: 15px;
+        right: 15px;
+    }
+
+    .fab-container {
+        bottom: 15px;
+        right: 15px;
+    }
+
+    .modal-content {
+        width: 90%;
+        max-width: 400px;
+    }
+
+    .word-list {
+        height: 200px;
+    }
+
+    .fab-option {
+        width: 80px;
+        height: 60px;
+    }
+
+    .nav-button {
+        font-size: 0.7em;
+    }
+}
+
+/* Media query for screens smaller than 480px (phones) */
+@media (max-width: 480px) {
+    .card {
+        font-size: 6vw;
+        max-width: 95vw;
+        max-height: 95vh;
+    }
+
+    .modal-content {
+        padding: 15px;
+    }
+
+    .fab {
+        width: 50px;
+        height: 50px;
+    }
+
+    .fab-option {
+        font-size: 0.8em;
+    }
+
+    .card-counter {
+        font-size: 1em;
+        bottom: -1.5em;
     }
 
     .fab-container {
@@ -361,9 +361,8 @@ body {
         right: 10px;
     }
 
-    .fab-option {
-        width: 80px;
-        height: 60px;
-        font-size: 0.9em;
+    .word-list li {
+        padding: 6px;
+        margin: 3px;
     }
 }

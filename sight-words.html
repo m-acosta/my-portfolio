@@ -22,8 +22,8 @@
         <!-- Card display area -->
         <div class="card" id="card">
             No cards to display <!-- Default message when no cards are available -->
-            <button class="button check-button">
-                <i class="fas fa-check"></i> <!-- Font Awesome check icon -->
+            <button class="button check-button bg-success">
+                <i class="fas fa-check "></i> <!-- Font Awesome check icon -->
             </button>
         </div>
 
@@ -39,7 +39,7 @@
     <!-- Floating Action Button (FAB) container -->
     <div class="fab-container">
         <!-- Main FAB button to toggle the dropdown menu -->
-        <button class="button fab-start fab-option" onclick="toggleFab()">
+        <button class="button fab-start fab-option bg-primary" onclick="toggleFab()">
             <i class="fas fa-cog"></i> Settings <!-- Font Awesome settings icon -->
         </button>
 
@@ -47,16 +47,16 @@
         <div class="fab-dropdown">
 
             <!-- Button to change the list of cards -->
-            <button class="button fab-option" onclick="openModal()">
+            <button class="button fab-option bg-primary" onclick="openModal()">
                 <i class="fas fa-list"></i> Change List <!-- Font Awesome list icon -->
 
             <!-- Button to shuffle the cards -->
-            <button class="button fab-option" onclick="shuffleCards()">
+            <button class="button fab-option bg-primary" onclick="shuffleCards()">
                 <i class="fas fa-random"></i> Shuffle <!-- Font Awesome random icon -->
             </button>
 
             <!-- Button to close the FAB dropdown -->
-            <button class="button fab-option" onclick="toggleFab()">
+            <button class="button fab-option bg-primary" onclick="toggleFab()">
                 <i class="fas fa-times"></i> Close <!-- Font Awesome close icon -->
             </button>
         </div>
@@ -83,8 +83,8 @@
                 </div>
             </div>
             <div class="button-container">
-                <button class="button fab-option save-button" onclick="saveWordChanges()">Save</button>
-                <button class="button fab-option cancel-button" onclick="closeModal()">Cancel</button>
+                <button class="button fab-option bg-success save-button" onclick="saveWordChanges()">Save</button>
+                <button class="button fab-option bg-danger cancel-button" onclick="closeModal()">Cancel</button>
             </div>
         </div>
     </div>
