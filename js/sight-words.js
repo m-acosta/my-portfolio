@@ -2,7 +2,10 @@
 const NO_MORE_CARDS_MESSAGE = "You finished all the cards!";
 
 // Default set of cards with sight words
-let defaultCards = ["go", "the", "see", "a", "I", "and", "you", "me", "is", "no"];
+let defaultCards = [
+    "a", "and", "go", "I", "is", "me", "no", "see", "the", "you",
+    "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"
+];
 
 // Current deck of cards (can be shuffled or reset)
 let cards = [...defaultCards];
@@ -15,9 +18,11 @@ const ANIMATION_DURATION = 700;
 
 // Additional words for the modal
 let availableWords = [
-    "saw", "he", "has", "can", "here", "for", "like", "what", "play", "this", 
-    "are", "have", "come", "want", "she", "do", "my", "one", "big", "to", 
-    "said", "put", "of", "little", "look", "jump", "we", "too", "with"
+    "a", "are", "b", "big", "c", "can", "come", "d", "do", "e", "f", "for", "g", 
+    "has", "have", "h", "he", "here", "i", "j", "jump", "k", "l", "like", "little", 
+    "look", "m", "my", "n", "o", "of", "one", "p", "play", "put", "q", "r", "s", 
+    "said", "saw", "she", "t", "this", "to", "too", "u", "v", "want", "we", "what", 
+    "with", "w", "x", "y", "z"
 ];
 
 /**
@@ -271,6 +276,9 @@ function moveWord(word, fromType) {
         availableWords = availableWords.filter(w => w !== word);
         cards.push(word);
     }
+
+    availableWords.sort();
+
     populateWordLists();
     updateWordHeaders(); // Update the headers after moving words
 }
@@ -289,6 +297,8 @@ function handleDrop(event, type) {
  * Saves the changes made in the modal and updates the cards.
  */
 function saveWordChanges() {
+    availableWords.sort();
+
     updateCard(); // Refresh the card display
     closeModal();
 }
