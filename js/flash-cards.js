@@ -1,7 +1,7 @@
 // Message displayed when there are no more cards
 const NO_MORE_CARDS_MESSAGE = "You finished all the cards!";
 
-// Default set of cards with sight words
+// Default set of cards to be displayed
 let defaultCards = [
     "a", "and", "go", "I", "is", "me", "no", "see", "the", "you",
     "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"
