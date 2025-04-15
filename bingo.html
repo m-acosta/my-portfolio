@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Bingo</title>
+        <!-- Include Patrick Hand font from Google Fonts -->
+        <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+        <style>
+            /* General styles for the page layout and design */
+            body {
+                font-family: 'Patrick Hand', Arial, sans-serif;
+                text-align: center;
+                margin: 0;
+                padding: 0;
+            }
+
+            /* Container for the game */
+            #game-container {
+                width: 60%;
+                margin: 20px auto;
+                border: 2px solid #000;
+                position: relative;
+                background-color: #f9f9f9;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                overflow: hidden;
+                height: auto;
+                min-height: 500px;
+                padding: 20px;
+                box-sizing: border-box;
+            }
+
+            /* Rules screen styles */
+            #rules-screen {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(255, 255, 255, 0.9);
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                z-index: 10;
+            }
+
+            /* Styles for the start buttons */
+            .start-btn {
+                font-family: 'Patrick Hand', Arial, sans-serif;
+                padding: 10px 20px;
+                font-size: 16px;
+                cursor: pointer;
+                margin: 5px;
+            }
+
+            /* Bingo board container */
+            #bingo-board {
+                display: none;
+                text-align: center;
+                pointer-events: none;
+            }
+
+            /* Bingo title styling */
+            #bingo-title {
+                font-family: 'Patrick Hand', Arial, sans-serif;
+                font-size: 2.5rem;
+                margin-bottom: 10px;
+            }
+
+            /* Grid layout for the bingo board */
+            .grid {
+                display: grid;
+                grid-template-columns: repeat(5, 1fr);
+                grid-template-rows: repeat(5, 1fr);
+                gap: 5px;
+                width: 100%;
+            }
+
+            /* Individual cell styles */
+            .cell {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border: 1px solid #000;
+                font-size: 2rem; /* Increase font size for better visibility */
+                line-height: 1; /* Ensure consistent vertical alignment */
+                background-color: #fff;
+                transition: background-color 0.3s ease, transform 0.2s ease;
+                aspect-ratio: 1 / 1; /* Ensures the cells are always square */
+                text-transform: inherit; /* Allow dynamic uppercase/lowercase */
+            }
+
+            /* Uppercase mode for consistent sizing */
+            .grid.uppercase-mode .cell {
+                text-transform: uppercase; /* Force uppercase letters */
+            }
+
+            /* Hover effect for cells */
+            .cell:hover {
+                background-color: #f0f0f0;
+                transform: scale(1.1);
+                cursor: pointer;
+            }
+
+            /* Free space cell styling */
+            .free-space {
+                background-color: #ffeb3b;
+                animation: pulse 1s infinite;
+            }
+
+            /* Animation for the free space */
+            @keyframes pulse {
+                0% {
+                    transform: scale(1);
+                }
+                50% {
+                    transform: scale(1.1);
+                }
+                100% {
+                    transform: scale(1);
+                }
+            }
+
+            /* Called letter tile styling */
+            #called-letter-tile {
+                width: 80px;
+                height: 80px;
+                margin: 10px auto;
+                font-size: 2rem;
+                font-weight: bold;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border: 2px solid #000;
+                border-radius: 50%; /* Makes it a circle */
+                background-color: #fff; /* Default background color */
+                position: relative;
+                overflow: hidden;
+            }
+
+            /* Inner white circle */
+            #called-letter-tile::before {
+                content: '';
+                position: absolute;
+                width: 60%;
+                height: 60%;
+                background-color: #fff;
+                border-radius: 50%; /* Makes it a smaller circle */
+                z-index: 1;
+            }
+
+            /* Letter styling */
+            #called-letter-tile span {
+                position: relative;
+                z-index: 2;
+                color: #000;
+            }
+
+            /* Game over screen styling */
+            #game-over-screen {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.6);
+                color: white;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                z-index: 20;
+                pointer-events: all;
+            }
+
+            /* Restart button styling */
+            #restart-btn {
+                font-family: 'Patrick Hand', Arial, sans-serif;
+                padding: 10px 20px;
+                font-size: 16px;
+                cursor: pointer;
+                background-color: #ffffff;
+                color: #000000;
+                border: none;
+                border-radius: 5px;
+                transition: background-color 0.3s ease;
+            }
+
+            #restart-btn:hover {
+                background-color: #f0f0f0;
+            }
+
+            /* Winning tile animation */
+            .winning-tile {
+                animation: pulse-gold 0.8s infinite, shine 1.5s infinite;
+                background-color: gold !important;
+                background-clip: padding-box;
+                border: 3px solid #ffd700;
+                box-shadow: 0 0 15px 5px rgba(255, 215, 0, 0.8);
+            }
+
+            /* Container for the BINGO letters */
+            #bingo-title-container {
+                display: grid;
+                grid-template-columns: repeat(5, 1fr);
+                gap: 5px;
+                width: 100%;
+                background-color: red;
+                color: white;
+                text-align: center;
+                padding: 10px 0;
+                margin-bottom: 10px;
+                font-family: 'Patrick Hand', Arial, sans-serif;
+                font-size: 1.5rem;
+                font-weight: bold;
+                border-radius: 5px;
+            }
+
+            /* Individual BINGO letters */
+            .bingo-letter {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            /* Outer card that holds the bingo title and tiles */
+            #bingo-card {
+                border: 2px solid #000;
+                border-radius: 10px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                padding: 20px;
+                background-color: #fff;
+                max-width: 450px;
+                margin: 0 auto;
+            }
+
+            /* Music toggle button styling */
+            #toggle-music-btn {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                background-color: #ffffff;
+                border: 2px solid #000;
+                border-radius: 50%;
+                width: 50px;
+                height: 50px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                transition: background-color 0.3s ease, transform 0.2s ease;
+            }
+
+            #toggle-music-btn:hover {
+                background-color: #f0f0f0;
+                transform: scale(1.1);
+            }
+
+            #music-icon {
+                font-size: 24px;
+                color: #000;
+            }
+
+            /* Add this CSS to style the music icon */
+            .music-icon {
+                position: relative;
+                display: inline-block;
+            }
+
+            .music-icon::after {
+                content: '❌';
+                position: absolute;
+                top: 0;
+                left: 0;
+                font-size: 24px;
+                color: red;
+                display: none; /* Hidden by default */
+            }
+
+            .music-icon.muted::after {
+                display: block; /* Show the "X" when muted */
+            }
+
+            @keyframes shake {
+                0%, 100% {
+                    transform: translateX(0);
+                }
+                25% {
+                    transform: translateX(-5px);
+                }
+                50% {
+                    transform: translateX(5px);
+                }
+                75% {
+                    transform: translateX(-5px);
+                }
+            }
+
+            .wrong-cell {
+                animation: shake 0.5s;
+                background-color: #ff4d4d !important; /* Flash red color */
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Music toggle button -->
+        <button id="toggle-music-btn" aria-label="Toggle background music">
+            <span id="music-icon" class="music-icon">🎵</span>
+        </button>
+
+        <!-- Main heading -->
+        <h1>🎉 Bingo 🎉</h1>
+
+        <!-- Game container -->
+        <div id="game-container">
+            <!-- Rules screen -->
+            <div id="rules-screen">
+                <h2>Let's play Bingo!</h2>
+                <p>Match the letter on your card with the letter that is called. Complete 5 in a row to win!</p>
+                <p>Turn your volume up for the best experience.</p>
+                <button class="start-btn" id="start-lowercase-btn" aria-label="Start game with lowercase letters">lowercase</button>
+                <button class="start-btn" id="start-uppercase-btn" aria-label="Start game with uppercase letters">UPPERCASE</button>
+            </div>
+
+            <!-- Bingo board -->
+            <div id="bingo-board">
+                <div id="called-letter-tile"></div>
+                <div id="bingo-card">
+                    <div id="bingo-title-container">
+                        <span class="bingo-letter">B</span>
+                        <span class="bingo-letter">I</span>
+                        <span class="bingo-letter">N</span>
+                        <span class="bingo-letter">G</span>
+                        <span class="bingo-letter">O</span>
+                    </div>
+                    <div class="grid" id="grid"></div>
+                </div>
+            </div>
+
+            <!-- Game over screen -->
+            <div id="game-over-screen" style="display: none;">
+                <h2>Congratulations! You Won!</h2>
+                <button id="restart-btn" aria-label="Restart the game">Restart Game</button>
+            </div>
+        </div>
+
+        <!-- Audio elements -->
+        <audio id="cheering-sound" src="audio/clapping-large-crowd.mp3"></audio>
+        <audio id="background-music" src="audio/smallguitar.mp3" loop></audio>
+
+        <!-- External library for confetti -->
+        <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+        <script>
+            // Initialize game variables
+            const rulesScreen = document.getElementById('rules-screen');
+            const startLowercaseBtn = document.getElementById('start-lowercase-btn');
+            const startUppercaseBtn = document.getElementById('start-uppercase-btn');
+            const bingoBoard = document.getElementById('bingo-board');
+            const grid = document.getElementById('grid');
+            const calledLetterTile = document.getElementById('called-letter-tile');
+            const gameOverScreen = document.getElementById('game-over-screen');
+            const restartBtn = document.getElementById('restart-btn');
+            const backgroundMusic = document.getElementById('background-music');
+            let currentCalledLetter = '';
+            let waitingForClick = false;
+            let boardLetters = new Set();
+            let calledLetters = new Set();
+            let gameOver = false;
+
+            // Add an array of colors for the ball
+            const ballColors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple'];
+
+            // Function to call a new letter
+            function callNewLetter(uppercase) {
+                if (waitingForClick || gameOver) return;
+                const boardArray = Array.from(boardLetters).filter(letter => !calledLetters.has(letter));
+                if (boardArray.length === 0) {
+                    return;
+                }
+                const randomIndex = Math.floor(Math.random() * boardArray.length);
+                currentCalledLetter = boardArray[randomIndex];
+                calledLetters.add(currentCalledLetter);
+
+                // Change the ball's color
+                const randomColor = ballColors[Math.floor(Math.random() * ballColors.length)];
+                calledLetterTile.style.backgroundColor = randomColor;
+
+                // Update the letter inside the ball
+                calledLetterTile.innerHTML = `<span>${uppercase ? currentCalledLetter.toUpperCase() : currentCalledLetter.toLowerCase()}</span>`;
+                waitingForClick = true;
+
+                // Speak the letter
+                const utterance = new SpeechSynthesisUtterance(
+                    uppercase ? currentCalledLetter.toUpperCase() : currentCalledLetter.toLowerCase()
+                );
+                utterance.lang = 'en-US';
+                utterance.rate = 0.5;
+                speechSynthesis.speak(utterance);
+            }
+
+            // Function to generate the bingo board
+            function generateBingoBoard(uppercase) {
+                grid.innerHTML = '';
+                grid.classList.toggle('uppercase-mode', uppercase); // Add or remove the uppercase mode class
+                const alphabet = 'abcdefghijklmnopqrstuvwxyz';
+                const usedLetters = new Set();
+                boardLetters.clear();
+                for (let row = 0; row < 5; row++) {
+                    for (let col = 0; col < 5; col++) {
+                        const cell = document.createElement('div');
+                        cell.classList.add('cell');
+                        if (row === 2 && col === 2) {
+                            cell.textContent = uppercase ? 'FREE' : 'free';
+                            cell.classList.add('free-space');
+                            cell.style.animation = 'pulse 1s infinite';
+                            cell.addEventListener('click', () => {
+                                if (cell.classList.contains('clicked')) {
+                                    return;
+                                }
+                                if (waitingForClick || currentCalledLetter === '') {
+                                    cell.style.backgroundColor = '#90ee90';
+                                    cell.style.animation = 'none';
+                                    cell.classList.add('clicked');
+                                    cell.classList.add('marked');
+                                    waitingForClick = false;
+                                    callNewLetter(uppercase);
+                                }
+                            });
+                        } else {
+                            let randomLetter;
+                            do {
+                                const randomIndex = Math.floor(Math.random() * alphabet.length);
+                                randomLetter = alphabet[randomIndex];
+                            } while (usedLetters.has(randomLetter));
+                            usedLetters.add(randomLetter);
+                            boardLetters.add(randomLetter);
+                            cell.textContent = uppercase
+                                ? randomLetter.toUpperCase()
+                                : randomLetter.toLowerCase();
+                        }
+                        cell.addEventListener('click', () => {
+                            if (cell.classList.contains('free-space')) {
+                                // Skip the effect for the free cell
+                                return;
+                            }
+                            if (waitingForClick && cell.textContent.toLowerCase() === currentCalledLetter) {
+                                // Correct cell clicked
+                                cell.style.backgroundColor = '#90ee90';
+                                cell.classList.add('marked');
+                                waitingForClick = false;
+                                setTimeout(() => {
+                                    callNewLetter(uppercase);
+                                }, 600);
+                                checkWin();
+                            } else if (waitingForClick && cell.textContent.toLowerCase() !== currentCalledLetter) {
+                                // Wrong cell clicked
+                                cell.classList.add('wrong-cell'); // Add the shake and flash effect
+                                setTimeout(() => {
+                                    cell.classList.remove('wrong-cell'); // Remove the effect after animation
+                                }, 500);
+                            }
+                        });
+                        grid.appendChild(cell);
+                    }
+                }
+            }
+
+            // Function to check for a win
+            function checkWin() {
+                const cells = Array.from(document.querySelectorAll('.cell'));
+                const gridSize = 5;
+                function checkLine(indices) {
+                    return indices.every(index => cells[index].classList.contains('marked'));
+                }
+                const lines = [
+                    [0, 1, 2, 3, 4],
+                    [5, 6, 7, 8, 9],
+                    [10, 11, 12, 13, 14],
+                    [15, 16, 17, 18, 19],
+                    [20, 21, 22, 23, 24],
+                    [0, 5, 10, 15, 20],
+                    [1, 6, 11, 16, 21],
+                    [2, 7, 12, 17, 22],
+                    [3, 8, 13, 18, 23],
+                    [4, 9, 14, 19, 24],
+                    [0, 6, 12, 18, 24],
+                    [4, 8, 12, 16, 20],
+                ];
+                for (const line of lines) {
+                    if (checkLine(line)) {
+                        bingoBoard.style.pointerEvents = 'none';
+                        gameOver = true;
+                        setTimeout(() => {
+                            line.forEach(index => {
+                                cells[index].classList.add('winning-tile');
+                            });
+                            endGame();
+                        }, 400);
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            // Function to handle the end of the game
+            function endGame() {
+                confetti({
+                    particleCount: 150,
+                    spread: 70,
+                    origin: { y: 0.6 },
+                    colors: ['#ffeb3b', '#ffd700', '#ffcc00'],
+                });
+                const cheeringSound = document.getElementById('cheering-sound');
+                cheeringSound.play();
+                setTimeout(() => {
+                    gameOverScreen.style.display = 'flex';
+                }, 500);
+            }
+
+            // Function to manage background music
+            function manageBackgroundMusic(action) {
+                if (action === 'start') {
+                    backgroundMusic.volume = 0.1; // Lower volume by 20% during gameplay
+                    backgroundMusic.loop = true; // Ensure it loops continuously
+                    backgroundMusic.play().catch((error) => {
+                        console.error('Background music could not be played:', error);
+                    });
+                } else if (action === 'reset') {
+                    backgroundMusic.volume = 0.2; // Restore original volume
+                }
+            }
+
+            // Event listeners for game controls
+            startLowercaseBtn.addEventListener('click', () => {
+                rulesScreen.style.display = 'none';
+                bingoBoard.style.display = 'block';
+                bingoBoard.style.pointerEvents = 'auto';
+                calledLetterTile.textContent = '';
+                calledLetters.clear();
+                generateBingoBoard(false);
+                manageBackgroundMusic('start'); // Lower volume and ensure music is playing
+            });
+
+            startUppercaseBtn.addEventListener('click', () => {
+                rulesScreen.style.display = 'none';
+                bingoBoard.style.display = 'block';
+                bingoBoard.style.pointerEvents = 'auto';
+                calledLetterTile.textContent = '';
+                calledLetters.clear();
+                generateBingoBoard(true);
+                manageBackgroundMusic('start'); // Lower volume and ensure music is playing
+            });
+
+            restartBtn.addEventListener('click', () => {
+                gameOver = false;
+                gameOverScreen.style.display = 'none';
+                rulesScreen.style.display = 'flex';
+                bingoBoard.style.display = 'none';
+                bingoBoard.style.pointerEvents = 'auto';
+                grid.innerHTML = '';
+                calledLetters.clear();
+                boardLetters.clear();
+                currentCalledLetter = '';
+                waitingForClick = false;
+                manageBackgroundMusic('reset'); // Restore original volume
+            });
+
+            const toggleMusicBtn = document.getElementById('toggle-music-btn');
+            const musicIcon = document.getElementById('music-icon');
+            let isMusicMuted = false;
+
+            // Function to toggle music
+            toggleMusicBtn.addEventListener('click', () => {
+                isMusicMuted = !isMusicMuted;
+                backgroundMusic.muted = isMusicMuted;
+                musicIcon.classList.toggle('muted', isMusicMuted); // Toggle the "muted" class
+            });
+        </script>
+        <footer style="margin-top: 20px; font-size: 0.6rem; color: #555;">
+            <p>Music I Use: <a href="https://www.bensound.com/free-music-for-videos" target="_blank" rel="noopener noreferrer">https://www.bensound.com/free-music-for-videos</a></p>
+            <p>Artist: Benjamin Tissot</p>
+            <p>License code: H1IPNYBLAEOJBDSX</p>
+        </footer>
+    </body>
+</html>
