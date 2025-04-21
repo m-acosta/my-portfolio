@@ -352,13 +352,13 @@
             }
 
             /* Media query for very small screens in landscape orientation */
-            @media (max-width: 768px) and (orientation: landscape) {
+            @media (max-width: 1080px) and (orientation: landscape) {
                 #game-container {
                     width: 100%; /* Use full width */
                     padding: 5px; /* Reduce padding further */
                     min-height: 100vh; /* Ensure it fills the viewport height */
                     overflow-y: auto; /* Allow scrolling if necessary */
-                    transform: scale(0.9); /* Scale down the entire container */
+                    transform: scale(0.8); /* Scale down the entire container */
                     transform-origin: top center; /* Scale from the top to avoid cutting off content */
                 }
 
@@ -473,9 +473,7 @@
                 waitingForClick = true;
 
                 // Speak the letter
-                const utterance = new SpeechSynthesisUtterance(
-                    uppercase ? currentCalledLetter.toUpperCase() : currentCalledLetter.toLowerCase()
-                );
+                const utterance = new SpeechSynthesisUtterance(currentCalledLetter.toLowerCase());                );
                 utterance.lang = 'en-US';
                 utterance.rate = 0.8;
                 speechSynthesis.speak(utterance);
