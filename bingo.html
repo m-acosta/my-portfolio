@@ -7,15 +7,21 @@
         <!-- Include Patrick Hand font from Google Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
         <style>
-            /* General styles for the page layout and design */
+            /* Add a background image to the body */
             body {
                 font-family: 'Patrick Hand', Arial, sans-serif;
                 text-align: center;
                 margin: 0;
                 padding: 0;
+                background-image: url('img/field-water-victoria-lucero.JPG'); /* Replace with your image path */
+                background-size: cover;
+                background-position: center;
+                background-attachment: fixed;
+                background-blend-mode: overlay; /* Blend the image with white */
+                background-color: rgba(255, 255, 255, 0.4); /* Base color for blending */
             }
 
-            /* Container for the game */
+            /* Ensure the game container remains unaffected */
             #game-container {
                 width: 60%;
                 margin: 20px auto;
@@ -305,6 +311,77 @@
                 animation: shake 0.5s;
                 background-color: #ff4d4d !important; /* Flash red color */
             }
+
+            /* Media query for smaller screens (e.g., tablets) */
+            @media (max-width: 768px) {
+                #game-container {
+                    width: 90%; /* Increase width to take up more space on smaller screens */
+                    padding: 15px; /* Reduce padding */
+                    min-height: 400px; /* Adjust minimum height */
+                }
+
+                #bingo-title {
+                    font-size: 2rem; /* Scale down the title font size */
+                }
+
+                .cell {
+                    font-size: 1.5rem; /* Reduce font size for cells */
+                }
+            }
+
+            /* Media query for very small screens (e.g., phones) */
+            @media (max-width: 480px) {
+                #game-container {
+                    width: 100%; /* Use full width */
+                    padding: 10px; /* Further reduce padding */
+                    min-height: 300px; /* Adjust minimum height */
+                }
+
+                #bingo-title {
+                    font-size: 1.5rem; /* Further scale down the title font size */
+                }
+
+                .cell {
+                    font-size: 1.2rem; /* Further reduce font size for cells */
+                }
+
+                .start-btn {
+                    font-size: 14px; /* Adjust button font size */
+                    padding: 8px 15px; /* Adjust button padding */
+                }
+            }
+
+            /* Media query for very small screens in landscape orientation */
+            @media (max-width: 768px) and (orientation: landscape) {
+                #game-container {
+                    width: 100%; /* Use full width */
+                    padding: 5px; /* Reduce padding further */
+                    min-height: 100vh; /* Ensure it fills the viewport height */
+                    overflow-y: auto; /* Allow scrolling if necessary */
+                    transform: scale(0.9); /* Scale down the entire container */
+                    transform-origin: top center; /* Scale from the top to avoid cutting off content */
+                }
+
+                #bingo-title {
+                    font-size: 1.2rem; /* Scale down the title font size */
+                }
+
+                .cell {
+                    font-size: 1rem; /* Further reduce font size for cells */
+                }
+
+                .start-btn {
+                    font-size: 12px; /* Adjust button font size */
+                    padding: 5px 10px; /* Adjust button padding */
+                }
+
+                #called-letter-tile {
+                    width: 60px; /* Reduce size of the called letter tile */
+                    height: 60px;
+                    font-size: 1.5rem; /* Adjust font size */
+                }
+            }
+            
         </style>
     </head>
     <body>
@@ -400,7 +477,7 @@
                     uppercase ? currentCalledLetter.toUpperCase() : currentCalledLetter.toLowerCase()
                 );
                 utterance.lang = 'en-US';
-                utterance.rate = 0.5;
+                utterance.rate = 0.8;
                 speechSynthesis.speak(utterance);
             }
 
@@ -583,9 +660,9 @@
             });
         </script>
         <footer style="margin-top: 20px; font-size: 0.6rem; color: #555;">
-            <p>Music I Use: <a href="https://www.bensound.com/free-music-for-videos" target="_blank" rel="noopener noreferrer">https://www.bensound.com/free-music-for-videos</a></p>
-            <p>Artist: Benjamin Tissot</p>
-            <p>License code: H1IPNYBLAEOJBDSX</p>
+            <p>Background image: Victoria Lucero</p>
+            <p>Music: <a href="https://www.bensound.com/free-music-for-videos" target="_blank" rel="noopener noreferrer">https://www.bensound.com/free-music-for-videos</a>;
+            Artist: Benjamin Tissot; License code: H1IPNYBLAEOJBDSX</p>
         </footer>
     </body>
 </html>
