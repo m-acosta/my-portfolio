@@ -2,6 +2,7 @@
 const rulesScreen = document.getElementById('rules-screen');
 const startLowercaseBtn = document.getElementById('start-lowercase-btn');
 const startUppercaseBtn = document.getElementById('start-uppercase-btn');
+const startSightWordsBtn = document.getElementById('start-sight-words-btn');
 const bingoBoard = document.getElementById('bingo-board');
 const grid = document.getElementById('grid');
 const calledLetterTile = document.getElementById('called-letter-tile');
@@ -17,45 +18,116 @@ let gameOver = false;
 // Add an array of colors for the ball
 const ballColors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple'];
 
-// Function to call a new letter
-function callNewLetter(uppercase) {
+const alphabet = 'abcdefghijklmnopqrstuvwxyz';
+
+const sightWords = [
+    "a", "and", "go", "I", "is", "me", "no", "see", "the", "you",
+    "are", "big", "can", "come", "do", "for",  
+    "has", "have", "he", "here", "jump", "like", "little", 
+    "look", "my", "of", "one", "play", "put", 
+    "said", "saw", "she", "this", "to", "too", "want", "we", "what", "with",
+];
+
+const CallMode = {
+    UPPERCASE: 'uppercase',
+    LOWERCASE: 'lowercase',
+    SIGHT_WORDS: 'sight_words',
+};
+let currentCallMode = CallMode.LOWERCASE; // Default mode
+
+function callNextTile() {
     if (waitingForClick || gameOver) return;
-    const boardArray = Array.from(boardLetters).filter(letter => !calledLetters.has(letter));
-    if (boardArray.length === 0) {
-        return;
-    }
+
+    const boardArray = Array.from(boardLetters).filter(word => !calledLetters.has(word));
+    if (boardArray.length === 0) return;
+
     const randomIndex = Math.floor(Math.random() * boardArray.length);
     currentCalledLetter = boardArray[randomIndex];
     calledLetters.add(currentCalledLetter);
 
-    // Change the ball's color
     const randomColor = ballColors[Math.floor(Math.random() * ballColors.length)];
     calledLetterTile.style.backgroundColor = randomColor;
 
-    // Update the letter inside the ball
-    calledLetterTile.innerHTML = `<span>${uppercase ? currentCalledLetter.toUpperCase() : currentCalledLetter.toLowerCase()}</span>`;
+    let displayText;
+    switch (currentCallMode) {
+        case CallMode.UPPERCASE:
+            displayText = currentCalledLetter.toUpperCase();
+            break;
+        case CallMode.LOWERCASE:
+            displayText = currentCalledLetter.toLowerCase();
+            break;
+        case CallMode.SIGHT_WORDS:
+            displayText = currentCalledLetter;
+            break;
+    }
+    calledLetterTile.innerHTML = `<span>${displayText}</span>`;
     waitingForClick = true;
 
-    // Speak the letter
     const utterance = new SpeechSynthesisUtterance(currentCalledLetter.toLowerCase());
     utterance.lang = 'en-US';
     utterance.rate = 0.8;
     speechSynthesis.speak(utterance);
 }
 
+function handleTileClick(cell, cellValue) {
+    if (cell.classList.contains('free-space')) return;
+
+    if (waitingForClick && cellValue === currentCalledLetter.toLowerCase()) {
+        // Correct cell clicked
+        cell.style.backgroundColor = '#90ee90';
+        cell.classList.add('marked');
+        waitingForClick = false;
+        setTimeout(() => callNextTile(), 600);
+        checkWin();
+    } else if (waitingForClick) {
+        // Wrong cell clicked
+        cell.classList.add('wrong-cell');
+        setTimeout(() => {
+            cell.classList.remove('wrong-cell');
+        }, 500);
+    }
+}
+
 // Function to generate the bingo board
-function generateBingoBoard(uppercase) {
+function generateBingoBoard(mode) {
+    currentCallMode = mode; 
     grid.innerHTML = '';
-    grid.classList.toggle('uppercase-mode', uppercase); // Add or remove the uppercase mode class
-    const alphabet = 'abcdefghijklmnopqrstuvwxyz';
+    switch (mode) {
+        case CallMode.UPPERCASE:
+            grid.classList.add('uppercase-mode'); // Add the uppercase mode class
+            break;
+        case CallMode.LOWERCASE:
+            grid.classList.remove('uppercase-mode'); // Remove the uppercase mode class
+            break;
+        case CallMode.SIGHT_WORDS:
+            grid.classList.remove('uppercase-mode'); // Remove the uppercase mode class
+            break;
+        default:
+            console.error('Invalid mode:', mode);
+            return;
+    }
     const usedLetters = new Set();
+    const usedWords = new Set();
     boardLetters.clear();
     for (let row = 0; row < 5; row++) {
         for (let col = 0; col < 5; col++) {
             const cell = document.createElement('div');
             cell.classList.add('cell');
             if (row === 2 && col === 2) {
-                cell.textContent = uppercase ? 'FREE' : 'free';
+                switch (mode) {
+                    case CallMode.UPPERCASE:
+                        cell.textContent = 'FREE';
+                        break;
+                    case CallMode.LOWERCASE:
+                        cell.textContent = 'free';
+                        break;
+                    case CallMode.SIGHT_WORDS:
+                        cell.textContent = 'Free';
+                        break;
+                    default:
+                        console.error('Invalid mode:', mode);
+                        return;
+                }
                 cell.classList.add('free-space');
                 cell.style.animation = 'pulse 1s infinite';
                 cell.addEventListener('click', () => {
@@ -68,42 +140,34 @@ function generateBingoBoard(uppercase) {
                         cell.classList.add('clicked');
                         cell.classList.add('marked');
                         waitingForClick = false;
-                        callNewLetter(uppercase);
+                        callNextTile();
                     }
                 });
             } else {
-                let randomLetter;
-                do {
-                    const randomIndex = Math.floor(Math.random() * alphabet.length);
-                    randomLetter = alphabet[randomIndex];
-                } while (usedLetters.has(randomLetter));
-                usedLetters.add(randomLetter);
-                boardLetters.add(randomLetter);
-                cell.textContent = uppercase
-                    ? randomLetter.toUpperCase()
-                    : randomLetter.toLowerCase();
+                let value;
+                if (mode === CallMode.SIGHT_WORDS) {
+                    do {
+                        const randomIndex = Math.floor(Math.random() * sightWords.length);
+                        value = sightWords[randomIndex];
+                    } while (usedWords.has(value));
+                    usedWords.add(value);
+                } else {
+                    do {
+                        const randomIndex = Math.floor(Math.random() * alphabet.length);
+                        value = alphabet[randomIndex];
+                    } while (usedLetters.has(value));
+                    usedLetters.add(value);
+                }
+                boardLetters.add(value);
+                cell.textContent =
+                    mode === CallMode.UPPERCASE ? value.toUpperCase() :
+                    mode === CallMode.LOWERCASE ? value.toLowerCase() :
+                    value;
+
             }
             cell.addEventListener('click', () => {
-                if (cell.classList.contains('free-space')) {
-                    // Skip the effect for the free cell
-                    return;
-                }
-                if (waitingForClick && cell.textContent.toLowerCase() === currentCalledLetter) {
-                    // Correct cell clicked
-                    cell.style.backgroundColor = '#90ee90';
-                    cell.classList.add('marked');
-                    waitingForClick = false;
-                    setTimeout(() => {
-                        callNewLetter(uppercase);
-                    }, 600);
-                    checkWin();
-                } else if (waitingForClick && cell.textContent.toLowerCase() !== currentCalledLetter) {
-                    // Wrong cell clicked
-                    cell.classList.add('wrong-cell'); 
-                    setTimeout(() => {
-                        cell.classList.remove('wrong-cell'); 
-                    }, 500);
-                }
+                const normalizedCellValue = cell.textContent.toLowerCase();
+                handleTileClick(cell, normalizedCellValue);
             });
             grid.appendChild(cell);
         }
@@ -182,7 +246,7 @@ startLowercaseBtn.addEventListener('click', () => {
     bingoBoard.style.pointerEvents = 'auto';
     calledLetterTile.textContent = '';
     calledLetters.clear();
-    generateBingoBoard(false);
+    generateBingoBoard(CallMode.LOWERCASE);
     manageBackgroundMusic('start'); 
 });
 
@@ -192,7 +256,17 @@ startUppercaseBtn.addEventListener('click', () => {
     bingoBoard.style.pointerEvents = 'auto';
     calledLetterTile.textContent = '';
     calledLetters.clear();
-    generateBingoBoard(true);
+    generateBingoBoard(CallMode.UPPERCASE);
+    manageBackgroundMusic('start'); 
+});
+
+startSightWordsBtn.addEventListener('click', () => {
+    rulesScreen.style.display = 'none';
+    bingoBoard.style.display = 'block';
+    bingoBoard.style.pointerEvents = 'auto';
+    calledLetterTile.textContent = '';
+    calledLetters.clear();
+    generateBingoBoard(CallMode.SIGHT_WORDS);
     manageBackgroundMusic('start'); 
 });
 
