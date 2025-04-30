@@ -121,6 +121,39 @@ body {
     }
 }
 
+#called-letter-tile {
+    z-index: 5; /* Make sure it's above other elements */
+    visibility: visible; /* Ensure it's not hidden */
+    transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+#called-letter-tile span {
+    color: black; /* Ensure the text is visible */
+    font-size: 2rem;
+    font-weight: bold;
+    position: relative;
+    z-index: 2;
+}
+
+.called-letter-tile {
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    transform-origin: center;
+    display: inline-block; /* important if it's a span or inline element */
+}
+
+/* Roll-out animation */
+.roll-out {
+    transform: rotate(540deg) translateY(0px);
+    opacity: 0;
+}
+
+/* Roll-in animation */
+.roll-in {
+    transform: rotate(0deg) translateY(0px);
+    opacity: 1;
+}
+ 
+
 /* Called letter tile styling */
 #called-letter-tile {
     width: 80px;

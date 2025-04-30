@@ -60,14 +60,34 @@ function callNextTile() {
             displayText = currentCalledLetter;
             break;
     }
-    calledLetterTile.innerHTML = `<span>${displayText}</span>`;
+
+    // Animate out
+    calledLetterTile.classList.remove('roll-in');
+    calledLetterTile.classList.add('roll-out');
     waitingForClick = true;
 
+    // Speak the letter
     const utterance = new SpeechSynthesisUtterance(currentCalledLetter.toLowerCase());
     utterance.lang = 'en-US';
     utterance.rate = 0.8;
     speechSynthesis.speak(utterance);
+
+    // Wait for roll-out to finish, then update letter and animate in
+    setTimeout(() => {
+        calledLetterTile.innerHTML = `<span>${displayText}</span>`;
+        calledLetterTile.classList.remove('roll-out');
+        // Force reflow to restart animation (optional but helps)
+        void calledLetterTile.offsetWidth;
+        calledLetterTile.classList.add('roll-in');
+
+        // Optional cleanup
+        setTimeout(() => {
+            calledLetterTile.classList.remove('roll-in');
+        }, 500);
+    }, 500); // match .roll-out duration
 }
+
+
 
 function handleTileClick(cell, cellValue) {
     if (cell.classList.contains('free-space')) return;
@@ -293,4 +313,21 @@ toggleMusicBtn.addEventListener('click', () => {
     isMusicMuted = !isMusicMuted;
     backgroundMusic.muted = isMusicMuted;
     musicIcon.classList.toggle('muted', isMusicMuted); 
+});
+
+// Pause music when the window is not in focus
+window.addEventListener('blur', () => {
+    if (!backgroundMusic.paused) {
+        backgroundMusic.pause();
+    }
+});
+
+// Resume music when the window regains focus
+window.addEventListener('focus', () => {
+    // Only resume if the game is active
+    if (bingoBoard.style.display === 'block') {
+        backgroundMusic.play().catch((error) => {
+            console.warn('Could not resume music on focus:', error);
+        });
+    }
 });
