@@ -90,7 +90,28 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
     },
-    { threshold: 0.6 } // Reveal when 60% of the section is visible
+    { threshold: 0.15 } // Reveal when 15% of the section is visible
   );
   revealSections.forEach(section => observer.observe(section));
+
+  let popupTimeout = setTimeout(showScrollPopup, 3600);
+  let popupShown = false;
+
+  function showScrollPopup() {
+    if (!popupShown && window.scrollY < 20) {
+      const popup = document.getElementById('scroll-popup');
+      if (popup) popup.style.display = 'flex';
+      popupShown = true;
+    }
+  }
+
+  function hideScrollPopup() {
+    const popup = document.getElementById('scroll-popup');
+    if (popup) popup.style.display = 'none';
+  }
+
+  window.addEventListener('scroll', () => {
+    if (popupShown) hideScrollPopup();
+    clearTimeout(popupTimeout);
+  });
 });

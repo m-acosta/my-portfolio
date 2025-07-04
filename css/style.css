@@ -373,6 +373,7 @@ header {
 @media (max-width: 700px) {
     section {
         padding: 2em 0.5em;
+        min-height: 60vh; /* Add this line for better reveal */
     }
     .skills-belt__container {
         height: 120px;
@@ -414,4 +415,45 @@ header {
     margin-bottom: 1.2em;
     display: inline-block;
     box-shadow: 0 2px 8px var(--clr-shadow-light);
+}
+
+/* Scroll Popup */
+#scroll-popup {
+    position: fixed;
+    bottom: 2em;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--clr-light, #fff);
+    padding: 1em 2em;
+    border-radius: var(--radius, 12px);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    font-size: 1.1em;
+    animation: fadeIn 0.6s;
+}
+
+#scroll-popup .scroll-popup__content {
+    display: flex;
+    align-items: center;
+    gap: 0.7em;
+}
+
+#scroll-popup .down-arrow {
+    font-size: 1.5em;
+    color: var(--clr-accent);
+    margin-left: 0.5em;
+    animation: bounceDown 1.2s infinite;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(30px) translateX(-50%);}
+    to { opacity: 1; transform: translateY(0) translateX(-50%);}
+}
+
+@keyframes bounceDown {
+    0%, 100% { transform: translateY(0);}
+    50% { transform: translateY(8px);}
 }
