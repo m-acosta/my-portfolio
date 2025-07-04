@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="A fun and interactive game with customizable rules and a beautiful design.">
+        <title>Story Builder</title>
+        <link rel="stylesheet" href="css/story-builder.css">
+        <!-- Include Patrick Hand font from Google Fonts -->
+        <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <h1>📖 Story Builder 🧩</h1>
+
+        <div id="game-container">
+            <div id="rules-screen">
+                <h2>Let's play!</h2>
+                <ol>
+                    <li><strong>Tap the blanks</strong> in the sentence to spin for new words!<br>
+                        You'll pick a <em>character</em>, an <em>action</em>, and a <em>place</em>.
+                    </li>
+                    <li><strong>Watch the magic happen!</strong><br>
+                    </li>
+                    <li> When you’re ready, <strong>hit the ✅ checkmark.</strong><br>
+                    </li>
+                    <li><strong>Play again and again!</strong> Every spin makes a brand-new silly story.
+                    </li>
+                </ol>
+                <button class="start-btn" id="start-btn" aria-label="Start the game">Start Game</button>
+            </div>
+
+            <div id="book-layout" class="closed-book" style="display: none">
+                <div id="left-page" class="book-page left-page" style="display: none">
+                    <div class="sentence" id="sentence" style="display: none">
+                        The
+                        <span class="blank" id="subject"><span class="blank-text">___</span><div class="progress-bar"></div></span>
+                        <span class="blank" id="verb"><span class="blank-text">___</span><div class="progress-bar"></div></span>
+                        <br>
+                        <span id="preposition"><span class="blank-text">in</span></span>
+                        the
+                        <span class="blank" id="place"><span class="blank-text">___</span><div class="progress-bar"></div></span>.
+                    </div>
+                </div> 
+                <div id="right-page" class="book-page right-page" style="display: none">
+                    <img id="subject-image" src="" alt="Subject illustration" />
+                    <img id="place-image" src="" alt="Place background" />
+                </div>
+            </div>           
+            
+            <div id="reading-screen" class="reading-screen" style="display: none;">
+                <div class="reading-content">
+                    <p class="highlighted-sentence"></p>
+                </div>
+            </div>
+            
+            <div class="button-row">
+                <button class="start-btn" id="read-btn" style="display: none" disabled>🔊</button>
+                <button class="start-btn" id="next-btn" aria-label="Next page" style="display: none" disabled>➡️</button>
+            </div>            
+        </div>
+
+        <script src="js/story-builder.js"></script>
+</html>
