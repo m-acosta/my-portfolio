@@ -1,0 +1,342 @@
+body {
+    font-family: 'Patrick Hand', Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to bottom, #f9f1f0, #6ab6b4);
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+button,
+.btn {
+    font-family: 'Patrick Hand', Arial, sans-serif;
+    padding: 10px 24px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    border: none;
+    border-radius: 12px;
+    background-color: #6ab6b4; /* Solid turquoise */
+    color: #fff;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+button:hover,
+.btn:hover {
+    background-color: #58a6a2; /* Slightly darker turquoise on hover */
+    transform: translateY(-2px);
+}
+
+button:disabled,
+.btn:disabled {
+    background-color: #ccc;
+    color: #666;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+
+#game-container {
+    width: 60%;
+    margin: 20px auto;
+    border: 2px solid #000;
+    position: relative;
+    background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    height: auto;
+    min-height: 500px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+#rules-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.9);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+#rules-screen ol li {
+    text-align: left;
+    max-width: 500px; /* optional, keeps it from being too wide */
+    margin: 0 auto;    /* centers the list block but keeps text left-aligned */
+    padding: 0 20px;   /* optional, adds breathing room */
+}
+
+#book-layout {
+    display: flex;
+    width: 90%;
+    max-width: 1000px;
+    margin: 0 auto;
+    height: 650px; /* Taller book */
+    background: #fffbe6;
+    border: 6px solid #3b2f2f; /* Darker border for contrast */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3), inset 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+}
+
+#book-layout::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 4px;
+    background-color: #5a3e2b; /* Deep brown spine */
+    transform: translateX(-50%);
+    z-index: 5;
+    box-shadow: inset 0 0 2px #000;
+}
+
+#left-page, #right-page {
+    width: 50%;
+    padding: 40px;
+    box-sizing: border-box;
+}
+
+#left-page {
+    border-right: 2px dashed #aaa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#right-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.start-btn {
+    font-family: 'Patrick Hand', Arial, sans-serif;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.sentence {
+    font-size: 2rem;
+    margin: 40px 0;
+    line-height: 1.5;
+    position: relative;
+    width: 100%;
+    text-align: center;
+    max-width: 500px; /* optional, keeps it from being too wide */
+}
+
+/* Style each blank as a box */
+.blank {
+    display: inline-block;
+    position: relative;
+    min-width: 80px;
+    height: 40px;
+    line-height: 40px;
+    margin: 0 5px;
+    background-color: #fff8dc;
+    border: 2px dashed #000;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #555;
+    vertical-align: middle;
+    cursor: pointer;
+    overflow: hidden;
+    text-align: center;
+}
+
+/* Progress bar styles */
+.progress-bar {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 100%;
+    width: 0%;
+    z-index: 0;
+    transition: width 0.5s linear, opacity 0.5s ease-out 0.5s; /* Fade out after the width reaches 100% */
+}
+
+#subject .progress-bar {
+    background-color: #9ee489ab; /* Coral Red */
+}
+
+#verb .progress-bar {
+    background-color: #6ab6b4; /* Slate Blue */
+}
+
+#place .progress-bar {
+    background-color: #6e6295; /* Light Sea Green */
+}
+
+/* Content inside blank (text) */
+.blank-text {
+    position: relative;
+    z-index: 1;
+    transition: opacity 0.5s ease-out; /* Speed up the fade-out effect */
+}
+
+#subject-image {
+    display: none;
+    width: 50%; /* Set the width to 50% of the parent container */
+    height: auto; /* Maintain the aspect ratio */
+    max-width: 300px; /* Limit max width */
+    transition: transform 0.3s ease-in-out;
+    animation: wiggle-in 0.8s ease forwards;
+    cursor: grab;
+    user-select: none;
+    position: absolute;
+    right: 0; /* Position it on the right half */
+    top: 50%; /* Vertically centered */
+    transform: translateY(-50%); /* Adjust vertical alignment */
+    object-fit: contain; /* Ensure the image fits without distortion */
+    z-index: 2; /* Ensure it's above the background */
+}
+
+#place-image {
+    display: none; /* Initially hidden */
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    border-radius: 8px;
+    opacity: 0; /* Start invisible */
+    animation: place-entry 1s ease forwards; /* Trigger animation when shown */
+    z-index: 1; /* Ensure it's above the background */
+}
+
+/* Entry animation for place image */
+@keyframes place-entry {
+    0% { 
+        transform: translateY(-50%) scale(0); 
+        opacity: 0; 
+    }
+    50% { 
+        transform: translateY(0) scale(1.1); 
+        opacity: 0.5; 
+    }
+    100% { 
+        transform: translateY(0) scale(1); 
+        opacity: 1; 
+    }
+}
+
+/* When the place image is made visible */
+.show-place {
+    display: block; /* Make the image visible */
+    animation: place-entry 1s ease forwards;
+}
+
+/* Reading screen container */
+.reading-screen {
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 1rem;
+    border: 2px solid #ccc;
+    border-radius: 1rem;
+    background: #fff;
+    margin-top: 1rem;
+}
+
+/* Layout inside reading screen - now just centers the sentence */
+.reading-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px;
+    margin: 10px 0;
+    border-radius: 12px;
+    background-color: #f5f5f5;
+    filter: none;
+    gap: 0;
+}
+
+/* Sentence display with word highlighting */
+.highlighted-sentence {
+    font-size: 1.5rem;
+    font-family: 'Patrick Hand', cursive;
+    line-height: 1.5;
+    flex-grow: 1;
+    margin: 0;
+    text-align: center;
+}
+
+/* Each word */
+.highlighted-sentence .word {
+    margin-right: 0.5rem;
+    transition: background-color 0.3s ease;
+}
+
+.button-row {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* spacing between buttons */
+    margin-top: 1rem;
+}
+
+
+
+/* Entry animation */
+@keyframes wiggle-in {
+    0% { transform: scale(0) rotate(-10deg); opacity: 0; }
+    50% { transform: scale(1.1) rotate(5deg); opacity: 1; }
+    100% { transform: scale(1) rotate(0); }
+}
+
+/* Optional: little wiggle on hover */
+#subject-image:hover {
+    animation: hover-wiggle 0.4s ease infinite;
+}
+
+@keyframes hover-wiggle {
+    0%, 100% { transform: rotate(0); }
+    50% { transform: rotate(2deg); }
+}
+
+footer {
+    margin-top: 20px;
+    font-size: 0.6rem;
+    color: #555;
+}
+
+@media (max-width: 768px) {
+    #game-container {
+        width: 90%;
+        padding: 15px;
+        min-height: 400px;
+    }
+}
+
+@media (max-width: 480px) {
+    #game-container {
+        width: 100%;
+        padding: 10px;
+        min-height: 300px;
+    }
+}
+
+@media (max-width: 1080px) and (orientation: landscape) {
+    #game-container {
+        width: 100%;
+        padding: 5px;
+        min-height: 100vh;
+        overflow-y: auto;
+        transform: scale(0.8);
+        transform-origin: top center;
+    }
+}
