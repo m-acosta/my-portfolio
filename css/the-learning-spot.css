@@ -80,3 +80,10 @@ header {
   cursor: not-allowed;
   pointer-events: none;
 }
+
+/* Make entire game cards clickable */
+a.game-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}

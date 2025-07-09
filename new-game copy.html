@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="A fun and interactive game with customizable rules and a beautiful design.">
+        <title>New Game</title>
+        <!-- Include Patrick Hand font from Google Fonts -->
+        <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+        <style>
+            /* General body styles */
+            body {
+                font-family: 'Patrick Hand', Arial, sans-serif;
+                text-align: center;
+                margin: 0;
+                padding: 0;
+                background-image: url('img/field-water-victoria-lucero.JPG');
+                background-size: cover;
+                background-position: center;
+                background-attachment: fixed;
+                background-blend-mode: overlay;
+                background-color: rgba(255, 255, 255, 0.4);
+            }
+
+            /* Game container styles */
+            #game-container {
+                width: 60%;
+                margin: 20px auto;
+                border: 2px solid #000;
+                position: relative;
+                background-color: #f9f9f9;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                overflow: hidden;
+                height: auto;
+                min-height: 500px;
+                padding: 20px;
+                box-sizing: border-box;
+            }
+
+            /* Rules screen styles */
+            #rules-screen {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(255, 255, 255, 0.9);
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                z-index: 10;
+            }
+
+            /* Styles for the start button */
+            .start-btn {
+                font-family: 'Patrick Hand', Arial, sans-serif;
+                padding: 10px 20px;
+                font-size: 16px;
+                cursor: pointer;
+                margin: 5px;
+            }
+
+            /* Footer styles */
+            footer {
+                margin-top: 20px;
+                font-size: 0.6rem;
+                color: #555;
+            }
+
+            /* Media query for smaller screens (e.g., tablets) */
+            @media (max-width: 768px) {
+                #game-container {
+                    width: 90%;
+                    padding: 15px;
+                    min-height: 400px;
+                }
+            }
+
+            /* Media query for very small screens (e.g., phones) */
+            @media (max-width: 480px) {
+                #game-container {
+                    width: 100%;
+                    padding: 10px;
+                    min-height: 300px;
+                }
+            }
+
+            /* Media query for very small screens in landscape orientation */
+            @media (max-width: 1080px) and (orientation: landscape) {
+                #game-container {
+                    width: 100%;
+                    padding: 5px;
+                    min-height: 100vh;
+                    overflow-y: auto;
+                    transform: scale(0.8);
+                    transform-origin: top center;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Main heading -->
+        <h1>🎉 Game Name 🎉</h1>
+
+        <!-- Game container -->
+        <div id="game-container">
+            <!-- Rules screen -->
+            <div id="rules-screen">
+                <h2>Let's play!</h2>
+                <p>Rules</p>
+                <button class="start-btn" id="start-btn" aria-label="Start the game">Start Game</button>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <p>Background image: Victoria Lucero</p>
+        </footer>
+    </body>
+</html>
