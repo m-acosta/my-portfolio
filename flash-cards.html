@@ -6,12 +6,31 @@
         <meta name="description" content="A fun and interactive flash card game with customizable rules.">
         <title>Flash Card Game</title>
         <link rel="stylesheet" href="css/flash-cards.css">
+        <link rel="stylesheet" href="css/shared.css">
         <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     </head>
     <body>
         <!-- Main heading -->
         <h1>🎉 Flash Card Game 🎉</h1>
+
+        <!-- Share Button -->
+        <button id="share-btn" class="share-btn share-btn-floating">
+        <div class="share-icon">📤</div>
+        <div class="share-label">Share</div>
+        </button>
+
+        <!-- Share Modal -->
+        <div id="shareModal" class="share-modal">
+            <div class="modal-content">
+                <span id="closeModal" class="close-btn">&times;</span>
+                <p>Copy this game link:</p>
+                <input type="text" id="gameLink" readonly>
+                <button onclick="copyGameLink()">Copy</button>
+                <div id="copyConfirm" class="copy-confirm">Link copied!</div>
+            </div>
+        </div>
+
 
         <!-- Game container -->
         <div id="game-container">
@@ -61,5 +80,6 @@
         </footer>
 
         <script src="js/flash-cards.js"></script>
+        <script src="/js/share-button.js" defer></script>
     </body>
 </html>

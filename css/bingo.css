@@ -125,37 +125,6 @@ body {
     z-index: 5; /* Make sure it's above other elements */
     visibility: visible; /* Ensure it's not hidden */
     transition: transform 0.5s ease, opacity 0.5s ease;
-}
-
-#called-letter-tile span {
-    color: black; /* Ensure the text is visible */
-    font-size: 2rem;
-    font-weight: bold;
-    position: relative;
-    z-index: 2;
-}
-
-.called-letter-tile {
-    transition: transform 0.5s ease, opacity 0.5s ease;
-    transform-origin: center;
-    display: inline-block; /* important if it's a span or inline element */
-}
-
-/* Roll-out animation */
-.roll-out {
-    transform: rotate(540deg) translateY(0px);
-    opacity: 0;
-}
-
-/* Roll-in animation */
-.roll-in {
-    transform: rotate(0deg) translateY(0px);
-    opacity: 1;
-}
- 
-
-/* Called letter tile styling */
-#called-letter-tile {
     width: 80px;
     height: 80px;
     margin: 10px auto;
@@ -171,7 +140,11 @@ body {
     overflow: hidden;
 }
 
-/* Inner white circle */
+#called-letter-tile span {
+    position: relative;
+    z-index: 2;
+}
+
 #called-letter-tile::before {
     content: '';
     position: absolute;
@@ -182,11 +155,22 @@ body {
     z-index: 1;
 }
 
-/* Letter styling */
 #called-letter-tile span {
     position: relative;
     z-index: 2;
     color: #000;
+}
+
+/* Roll-out animation */
+.roll-out {
+    transform: rotate(540deg) translateY(0px);
+    opacity: 0;
+}
+
+/* Roll-in animation */
+.roll-in {
+    transform: rotate(0deg) translateY(0px);
+    opacity: 1;
 }
 
 /* Game over screen styling */
@@ -275,14 +259,17 @@ body {
     background-color: #ffffff;
     border: 2px solid #000;
     border-radius: 50%;
-    width: 50px;
-    height: 50px;
+    width: 70px;
+    height: 70px;
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
+    padding: 5px;
     cursor: pointer;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     transition: background-color 0.3s ease, transform 0.2s ease;
+    gap: 4px;
 }
 
 #toggle-music-btn:hover {
@@ -291,29 +278,29 @@ body {
 }
 
 #music-icon {
-    font-size: 24px;
+    font-size: 32px;
     color: #000;
+    line-height: 1;
 }
 
-/* Add this CSS to style the music icon */
 .music-icon {
     position: relative;
     display: inline-block;
 }
 
-.music-icon::after {
-    content: '❌';
-    position: absolute;
-    top: 0;
-    left: 0;
-    font-size: 24px;
-    color: red;
-    display: none; 
+#toggle-music-btn.muted {
+    filter: grayscale(100%);
+    opacity: 0.6;
 }
 
-.music-icon.muted::after {
-    display: block; 
+/* Button label below emoji */
+.button-label {
+    font-family: 'Patrick Hand', Arial, sans-serif;
+    font-size: 0.75rem;
+    color: #000;
+    user-select: none;
 }
+
 
 @keyframes shake {
     0%, 100% {
@@ -371,6 +358,21 @@ body {
     .start-btn {
         font-size: 14px; 
         padding: 8px 15px; 
+    }
+
+    #toggle-music-btn,
+    #share-btn {
+        width: 50px;
+        height: 50px;
+    }
+
+    #music-icon,
+    #share-icon {
+        font-size: 24px;
+    }
+
+    .button-label {
+        font-size: 0.6rem;
     }
 }
 

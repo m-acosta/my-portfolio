@@ -1,4 +1,6 @@
-// Initialize game variables
+// ------------------------------
+// Constants & Variables
+// ------------------------------
 const rulesScreen = document.getElementById('rules-screen');
 const startLowercaseBtn = document.getElementById('start-lowercase-btn');
 const startUppercaseBtn = document.getElementById('start-uppercase-btn');
@@ -9,15 +11,9 @@ const calledLetterTile = document.getElementById('called-letter-tile');
 const gameOverScreen = document.getElementById('game-over-screen');
 const restartBtn = document.getElementById('restart-btn');
 const backgroundMusic = document.getElementById('background-music');
-let currentCalledLetter = '';
-let waitingForClick = false;
-let boardLetters = new Set();
-let calledLetters = new Set();
-let gameOver = false;
+const toggleMusicBtn = document.getElementById('toggle-music-btn');
 
-// Add an array of colors for the ball
 const ballColors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple'];
-
 const alphabet = 'abcdefghijklmnopqrstuvwxyz';
 
 const sightWords = [
@@ -33,220 +29,38 @@ const CallMode = {
     LOWERCASE: 'lowercase',
     SIGHT_WORDS: 'sight_words',
 };
+
 let currentCallMode = CallMode.LOWERCASE; // Default mode
+let currentCalledLetter = '';
+let waitingForClick = false;
+let boardLetters = new Set();
+let calledLetters = new Set();
+let gameOver = false;
+let isMusicMuted = false;
 
-function callNextTile() {
-    if (waitingForClick || gameOver) return;
+// ------------------------------
+// Music Control
+// ------------------------------
+toggleMusicBtn.addEventListener('click', () => {
+    isMusicMuted = !isMusicMuted;
+    backgroundMusic.muted = isMusicMuted;
+    toggleMusicBtn.classList.toggle('muted', isMusicMuted);  // toggle muted class on button
+});
 
-    const boardArray = Array.from(boardLetters).filter(word => !calledLetters.has(word));
-    if (boardArray.length === 0) return;
-
-    const randomIndex = Math.floor(Math.random() * boardArray.length);
-    currentCalledLetter = boardArray[randomIndex];
-    calledLetters.add(currentCalledLetter);
-
-    const randomColor = ballColors[Math.floor(Math.random() * ballColors.length)];
-    calledLetterTile.style.backgroundColor = randomColor;
-
-    let displayText;
-    switch (currentCallMode) {
-        case CallMode.UPPERCASE:
-            displayText = currentCalledLetter.toUpperCase();
-            break;
-        case CallMode.LOWERCASE:
-            displayText = currentCalledLetter.toLowerCase();
-            break;
-        case CallMode.SIGHT_WORDS:
-            displayText = currentCalledLetter;
-            break;
+window.addEventListener('blur', () => {
+    if (!backgroundMusic.paused) {
+        backgroundMusic.pause();
     }
+});
 
-    // Animate out
-    calledLetterTile.classList.remove('roll-in');
-    calledLetterTile.classList.add('roll-out');
-    waitingForClick = true;
-
-    // Speak the letter
-    const utterance = new SpeechSynthesisUtterance(currentCalledLetter.toLowerCase());
-    utterance.lang = 'en-US';
-    utterance.rate = 0.8;
-    speechSynthesis.speak(utterance);
-
-    // Wait for roll-out to finish, then update letter and animate in
-    setTimeout(() => {
-        calledLetterTile.innerHTML = `<span>${displayText}</span>`;
-        calledLetterTile.classList.remove('roll-out');
-        // Force reflow to restart animation (optional but helps)
-        void calledLetterTile.offsetWidth;
-        calledLetterTile.classList.add('roll-in');
-
-        // Optional cleanup
-        setTimeout(() => {
-            calledLetterTile.classList.remove('roll-in');
-        }, 500);
-    }, 500); // match .roll-out duration
-}
-
-
-
-function handleTileClick(cell, cellValue) {
-    if (cell.classList.contains('free-space')) return;
-
-    if (waitingForClick && cellValue === currentCalledLetter.toLowerCase()) {
-        // Correct cell clicked
-        cell.style.backgroundColor = '#90ee90';
-        cell.classList.add('marked');
-        waitingForClick = false;
-        setTimeout(() => callNextTile(), 600);
-        checkWin();
-    } else if (waitingForClick) {
-        // Wrong cell clicked
-        cell.classList.add('wrong-cell');
-        setTimeout(() => {
-            cell.classList.remove('wrong-cell');
-        }, 500);
+window.addEventListener('focus', () => {
+    if (bingoBoard.style.display === 'block') {
+        backgroundMusic.play().catch((error) => {
+            console.warn('Could not resume music on focus:', error);
+        });
     }
-}
+});
 
-// Function to generate the bingo board
-function generateBingoBoard(mode) {
-    currentCallMode = mode; 
-    grid.innerHTML = '';
-    switch (mode) {
-        case CallMode.UPPERCASE:
-            grid.classList.add('uppercase-mode'); // Add the uppercase mode class
-            break;
-        case CallMode.LOWERCASE:
-            grid.classList.remove('uppercase-mode'); // Remove the uppercase mode class
-            break;
-        case CallMode.SIGHT_WORDS:
-            grid.classList.remove('uppercase-mode'); // Remove the uppercase mode class
-            break;
-        default:
-            console.error('Invalid mode:', mode);
-            return;
-    }
-    const usedLetters = new Set();
-    const usedWords = new Set();
-    boardLetters.clear();
-    for (let row = 0; row < 5; row++) {
-        for (let col = 0; col < 5; col++) {
-            const cell = document.createElement('div');
-            cell.classList.add('cell');
-            if (row === 2 && col === 2) {
-                switch (mode) {
-                    case CallMode.UPPERCASE:
-                        cell.textContent = 'FREE';
-                        break;
-                    case CallMode.LOWERCASE:
-                        cell.textContent = 'free';
-                        break;
-                    case CallMode.SIGHT_WORDS:
-                        cell.textContent = 'Free';
-                        break;
-                    default:
-                        console.error('Invalid mode:', mode);
-                        return;
-                }
-                cell.classList.add('free-space');
-                cell.style.animation = 'pulse 1s infinite';
-                cell.addEventListener('click', () => {
-                    if (cell.classList.contains('clicked')) {
-                        return;
-                    }
-                    if (waitingForClick || currentCalledLetter === '') {
-                        cell.style.backgroundColor = '#90ee90';
-                        cell.style.animation = 'none';
-                        cell.classList.add('clicked');
-                        cell.classList.add('marked');
-                        waitingForClick = false;
-                        callNextTile();
-                    }
-                });
-            } else {
-                let value;
-                if (mode === CallMode.SIGHT_WORDS) {
-                    do {
-                        const randomIndex = Math.floor(Math.random() * sightWords.length);
-                        value = sightWords[randomIndex];
-                    } while (usedWords.has(value));
-                    usedWords.add(value);
-                } else {
-                    do {
-                        const randomIndex = Math.floor(Math.random() * alphabet.length);
-                        value = alphabet[randomIndex];
-                    } while (usedLetters.has(value));
-                    usedLetters.add(value);
-                }
-                boardLetters.add(value);
-                cell.textContent =
-                    mode === CallMode.UPPERCASE ? value.toUpperCase() :
-                    mode === CallMode.LOWERCASE ? value.toLowerCase() :
-                    value;
-
-            }
-            cell.addEventListener('click', () => {
-                const normalizedCellValue = cell.textContent.toLowerCase();
-                handleTileClick(cell, normalizedCellValue);
-            });
-            grid.appendChild(cell);
-        }
-    }
-}
-
-// Function to check for a win
-function checkWin() {
-    const cells = Array.from(document.querySelectorAll('.cell'));
-    const gridSize = 5;
-    function checkLine(indices) {
-        return indices.every(index => cells[index].classList.contains('marked'));
-    }
-    const lines = [
-        [0, 1, 2, 3, 4],
-        [5, 6, 7, 8, 9],
-        [10, 11, 12, 13, 14],
-        [15, 16, 17, 18, 19],
-        [20, 21, 22, 23, 24],
-        [0, 5, 10, 15, 20],
-        [1, 6, 11, 16, 21],
-        [2, 7, 12, 17, 22],
-        [3, 8, 13, 18, 23],
-        [4, 9, 14, 19, 24],
-        [0, 6, 12, 18, 24],
-        [4, 8, 12, 16, 20],
-    ];
-    for (const line of lines) {
-        if (checkLine(line)) {
-            bingoBoard.style.pointerEvents = 'none';
-            gameOver = true;
-            setTimeout(() => {
-                line.forEach(index => {
-                    cells[index].classList.add('winning-tile');
-                });
-                endGame();
-            }, 400);
-            return true;
-        }
-    }
-    return false;
-}
-
-// Function to handle the end of the game
-function endGame() {
-    confetti({
-        particleCount: 150,
-        spread: 70,
-        origin: { y: 0.6 },
-        colors: ['#ffeb3b', '#ffd700', '#ffcc00'],
-    });
-    const cheeringSound = document.getElementById('cheering-sound');
-    cheeringSound.play();
-    setTimeout(() => {
-        gameOverScreen.style.display = 'flex';
-    }, 500);
-}
-
-// Function to manage background music
 function manageBackgroundMusic(action) {
     if (action === 'start') {
         backgroundMusic.volume = 0.1; 
@@ -259,7 +73,186 @@ function manageBackgroundMusic(action) {
     }
 }
 
-// Event listeners for game controls
+// ------------------------------
+// Bingo Game Logic
+// ------------------------------
+function generateBingoBoard(mode) {
+    currentCallMode = mode; 
+    grid.innerHTML = '';
+    switch (mode) {
+        case CallMode.UPPERCASE:
+            grid.classList.add('uppercase-mode');
+            break;
+        case CallMode.LOWERCASE:
+        case CallMode.SIGHT_WORDS:
+            grid.classList.remove('uppercase-mode');
+            break;
+        default:
+            console.error('Invalid mode:', mode);
+            return;
+    }
+
+    const usedLetters = new Set();
+    const usedWords = new Set();
+    boardLetters.clear();
+
+    for (let row = 0; row < 5; row++) {
+        for (let col = 0; col < 5; col++) {
+            const cell = document.createElement('div');
+            cell.classList.add('cell');
+
+            if (row === 2 && col === 2) {
+                // Free space in center
+                switch (mode) {
+                    case CallMode.UPPERCASE: cell.textContent = 'FREE'; break;
+                    case CallMode.LOWERCASE: cell.textContent = 'free'; break;
+                    case CallMode.SIGHT_WORDS: cell.textContent = 'Free'; break;
+                }
+                cell.classList.add('free-space');
+                cell.style.animation = 'pulse 1s infinite';
+                cell.addEventListener('click', () => {
+                    if (cell.classList.contains('clicked')) return;
+                    if (waitingForClick || currentCalledLetter === '') {
+                        cell.style.backgroundColor = '#90ee90';
+                        cell.style.animation = 'none';
+                        cell.classList.add('clicked', 'marked');
+                        waitingForClick = false;
+                        callNextTile();
+                    }
+                });
+            } else {
+                let value;
+                if (mode === CallMode.SIGHT_WORDS) {
+                    do {
+                        value = sightWords[Math.floor(Math.random() * sightWords.length)];
+                    } while (usedWords.has(value));
+                    usedWords.add(value);
+                } else {
+                    do {
+                        value = alphabet[Math.floor(Math.random() * alphabet.length)];
+                    } while (usedLetters.has(value));
+                    usedLetters.add(value);
+                }
+                boardLetters.add(value);
+
+                cell.textContent = mode === CallMode.UPPERCASE ? value.toUpperCase() :
+                                   mode === CallMode.LOWERCASE ? value.toLowerCase() :
+                                   value;
+            }
+
+            cell.addEventListener('click', () => {
+                handleTileClick(cell, cell.textContent.toLowerCase());
+            });
+
+            grid.appendChild(cell);
+        }
+    }
+}
+
+function callNextTile() {
+    if (waitingForClick || gameOver) return;
+
+    const available = Array.from(boardLetters).filter(word => !calledLetters.has(word));
+    if (available.length === 0) return;
+
+    const randomIndex = Math.floor(Math.random() * available.length);
+    currentCalledLetter = available[randomIndex];
+    calledLetters.add(currentCalledLetter);
+
+    const randomColor = ballColors[Math.floor(Math.random() * ballColors.length)];
+    calledLetterTile.style.backgroundColor = randomColor;
+
+    let displayText;
+    switch (currentCallMode) {
+        case CallMode.UPPERCASE: displayText = currentCalledLetter.toUpperCase(); break;
+        case CallMode.LOWERCASE: displayText = currentCalledLetter.toLowerCase(); break;
+        case CallMode.SIGHT_WORDS: displayText = currentCalledLetter; break;
+    }
+
+    // Animate out & in
+    calledLetterTile.classList.remove('roll-in');
+    calledLetterTile.classList.add('roll-out');
+    waitingForClick = true;
+
+    const utterance = new SpeechSynthesisUtterance(currentCalledLetter.toLowerCase());
+    utterance.lang = 'en-US';
+    utterance.rate = 1.0;
+    speechSynthesis.speak(utterance);
+
+    setTimeout(() => {
+        calledLetterTile.innerHTML = `<span>${displayText}</span>`;
+        calledLetterTile.classList.remove('roll-out');
+        void calledLetterTile.offsetWidth; // reflow
+        calledLetterTile.classList.add('roll-in');
+
+        setTimeout(() => {
+            calledLetterTile.classList.remove('roll-in');
+        }, 500);
+    }, 500);
+}
+
+function handleTileClick(cell, cellValue) {
+    if (cell.classList.contains('free-space')) return;
+
+    if (waitingForClick && cellValue === currentCalledLetter.toLowerCase()) {
+        cell.style.backgroundColor = '#90ee90';
+        cell.classList.add('marked');
+        waitingForClick = false;
+        setTimeout(callNextTile, 600);
+        checkWin();
+    } else if (waitingForClick) {
+        cell.classList.add('wrong-cell');
+        setTimeout(() => cell.classList.remove('wrong-cell'), 500);
+    }
+}
+
+function checkWin() {
+    const cells = Array.from(document.querySelectorAll('.cell'));
+
+    function checkLine(indices) {
+        return indices.every(index => cells[index].classList.contains('marked'));
+    }
+
+    const lines = [
+        [0, 1, 2, 3, 4],    [5, 6, 7, 8, 9],   [10, 11, 12, 13, 14],
+        [15, 16, 17, 18, 19],[20, 21, 22, 23, 24],[0, 5, 10, 15, 20],
+        [1, 6, 11, 16, 21], [2, 7, 12, 17, 22], [3, 8, 13, 18, 23],
+        [4, 9, 14, 19, 24], [0, 6, 12, 18, 24], [4, 8, 12, 16, 20],
+    ];
+
+    for (const line of lines) {
+        if (checkLine(line)) {
+            bingoBoard.style.pointerEvents = 'none';
+            gameOver = true;
+            setTimeout(() => {
+                line.forEach(i => cells[i].classList.add('winning-tile'));
+                endGame();
+            }, 400);
+            return true;
+        }
+    }
+    return false;
+}
+
+function endGame() {
+    confetti({
+        particleCount: 150,
+        spread: 70,
+        origin: { y: 0.6 },
+        colors: ['#ffeb3b', '#ffd700', '#ffcc00'],
+    });
+
+    const cheeringSound = document.getElementById('cheering-sound');
+    cheeringSound.play();
+
+    setTimeout(() => {
+        gameOverScreen.style.display = 'flex';
+    }, 500);
+}
+
+// ------------------------------
+// Event Listeners for Game Control Buttons
+// ------------------------------
 startLowercaseBtn.addEventListener('click', () => {
     rulesScreen.style.display = 'none';
     bingoBoard.style.display = 'block';
@@ -267,7 +260,7 @@ startLowercaseBtn.addEventListener('click', () => {
     calledLetterTile.textContent = '';
     calledLetters.clear();
     generateBingoBoard(CallMode.LOWERCASE);
-    manageBackgroundMusic('start'); 
+    manageBackgroundMusic('start');
 });
 
 startUppercaseBtn.addEventListener('click', () => {
@@ -277,7 +270,7 @@ startUppercaseBtn.addEventListener('click', () => {
     calledLetterTile.textContent = '';
     calledLetters.clear();
     generateBingoBoard(CallMode.UPPERCASE);
-    manageBackgroundMusic('start'); 
+    manageBackgroundMusic('start');
 });
 
 startSightWordsBtn.addEventListener('click', () => {
@@ -287,7 +280,7 @@ startSightWordsBtn.addEventListener('click', () => {
     calledLetterTile.textContent = '';
     calledLetters.clear();
     generateBingoBoard(CallMode.SIGHT_WORDS);
-    manageBackgroundMusic('start'); 
+    manageBackgroundMusic('start');
 });
 
 restartBtn.addEventListener('click', () => {
@@ -301,33 +294,5 @@ restartBtn.addEventListener('click', () => {
     boardLetters.clear();
     currentCalledLetter = '';
     waitingForClick = false;
-    manageBackgroundMusic('reset'); 
-});
-
-const toggleMusicBtn = document.getElementById('toggle-music-btn');
-const musicIcon = document.getElementById('music-icon');
-let isMusicMuted = false;
-
-// Function to toggle music
-toggleMusicBtn.addEventListener('click', () => {
-    isMusicMuted = !isMusicMuted;
-    backgroundMusic.muted = isMusicMuted;
-    musicIcon.classList.toggle('muted', isMusicMuted); 
-});
-
-// Pause music when the window is not in focus
-window.addEventListener('blur', () => {
-    if (!backgroundMusic.paused) {
-        backgroundMusic.pause();
-    }
-});
-
-// Resume music when the window regains focus
-window.addEventListener('focus', () => {
-    // Only resume if the game is active
-    if (bingoBoard.style.display === 'block') {
-        backgroundMusic.play().catch((error) => {
-            console.warn('Could not resume music on focus:', error);
-        });
-    }
+    manageBackgroundMusic('reset');
 });

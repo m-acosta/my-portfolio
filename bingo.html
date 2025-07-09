@@ -7,12 +7,31 @@
         <!-- Include Patrick Hand font from Google Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="css/bingo.css">
+        <link rel="stylesheet" href="css/shared.css">
     </head>
     <body>
         <!-- Music toggle button -->
         <button id="toggle-music-btn" aria-label="Toggle background music">
             <span id="music-icon" class="music-icon">🎵</span>
+            <span class="button-label">Music</span>
         </button>
+
+        <!-- Share Button -->
+        <button id="share-btn" class="share-btn share-btn-floating">
+        <div class="share-icon">📤</div>
+        <div class="share-label">Share</div>
+        </button>
+
+        <!-- Share Modal -->
+        <div id="shareModal" class="share-modal">
+            <div class="modal-content">
+                <span id="closeModal" class="close-btn">&times;</span>
+                <p>Copy this game link:</p>
+                <input type="text" id="gameLink" readonly>
+                <button onclick="copyGameLink()">Copy</button>
+                <div id="copyConfirm" class="copy-confirm">Link copied!</div>
+            </div>
+        </div>
 
         <!-- Main heading -->
         <h1>🎉 Bingo 🎉</h1>
@@ -58,6 +77,7 @@
         <!-- External library for confetti -->
         <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
         <script src="js/bingo.js"></script>
+        <script src="/js/share-button.js" defer></script>
 
         <footer style="margin-top: 20px; font-size: 0.6rem; color: #555;">
             <p>Background image: Victoria Lucero</p>

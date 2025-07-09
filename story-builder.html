@@ -6,11 +6,30 @@
         <meta name="description" content="A fun and interactive game with customizable rules and a beautiful design.">
         <title>Story Builder</title>
         <link rel="stylesheet" href="css/story-builder.css">
+        <link rel="stylesheet" href="css/shared.css">
         <!-- Include Patrick Hand font from Google Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
     </head>
     <body>
         <h1>📖 Story Builder 🧩</h1>
+
+        <!-- Share Button -->
+        <button id="share-btn" class="share-btn share-btn-floating">
+        <div class="share-icon">📤</div>
+        <div class="share-label">Share</div>
+        </button>
+
+        <!-- Share Modal -->
+        <div id="shareModal" class="share-modal">
+            <div class="modal-content">
+                <span id="closeModal" class="close-btn">&times;</span>
+                <p>Copy this game link:</p>
+                <input type="text" id="gameLink" readonly>
+                <button onclick="copyGameLink()">Copy</button>
+                <div id="copyConfirm" class="copy-confirm">Link copied!</div>
+            </div>
+        </div>
+
 
         <div id="game-container">
             <div id="rules-screen">
@@ -60,4 +79,5 @@
         </div>
 
         <script src="js/story-builder.js"></script>
+        <script src="/js/share-button.js" defer></script>
 </html>
