@@ -251,11 +251,17 @@ body {
     margin: 0 auto;
 }
 
+.share-header {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;          /* space between music & share buttons */
+  padding: 0.5rem 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;    /* handles small screens */
+}
+
 /* Music toggle button styling */
 #toggle-music-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
     background-color: #ffffff;
     border: 2px solid #000;
     border-radius: 50%;

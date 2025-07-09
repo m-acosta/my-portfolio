@@ -1,10 +1,10 @@
 /* === Shared Share Button Styles === */
 
-/* Positioning should be handled per page; use this only if you want a default floating position */
-.share-btn-floating {
-  position: absolute;
-  top: 10px;
-  right: 90px; /* adjust if there's another button like music nearby */
+.share-header {
+  display: flex;
+  justify-content: flex-end; /* align button right */
+  padding: 0.5rem 1rem;
+  margin-bottom: 1rem; /* spacing below header */
 }
 
 /* Core Share Button */
