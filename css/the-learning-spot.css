@@ -60,30 +60,41 @@ header {
   opacity: 0.5;
 }
 
-.play-button {
-  display: inline-block;
-  margin-top: 1rem;
-  padding: 0.5rem 1rem;
-  background: var(--clr-dark);
-  color: var(--clr-light);
-  text-decoration: none;
-  border-radius: 5px;
-  transition: background 300ms ease;
-}
-
-.play-button:hover {
-  background: #000;
-}
-
-.play-button.disabled {
-  background: #999;
-  cursor: not-allowed;
-  pointer-events: none;
-}
-
 /* Make entire game cards clickable */
 a.game-link {
   text-decoration: none;
   color: inherit;
   display: block;
 }
+
+.button-row {
+  display: flex;
+  gap: 0.5em;
+  margin-top: 0.75em;
+}
+
+.btn {
+  flex: 1;
+  padding: 0.5em 0.75em;
+  border-radius: 0.5em;
+  font-weight: bold;
+  font-size: 1rem;
+  text-decoration: none;
+  background-color: var(--clr-dark);
+  color: var(--clr-light);
+  cursor: pointer;
+  user-select: none;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3em;
+  
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.btn:hover {
+  background-color: #554d7c;
+  transform: scale(1.05);
+}
+

@@ -12,6 +12,9 @@
     </head>
     <body>
         <header class="share-header">
+            <a href="the-learning-spot.html" class="home-button" aria-label="Home">
+                🏠
+            </a>
             <button id="share-btn" class="share-btn" aria-label="Share game link">
                 <div class="share-icon">📤</div>
                 <div class="share-label">Share</div>
@@ -37,12 +40,15 @@
         <div id="game-container">
             <!-- Rules screen -->
             <div id="rules-screen">
-                <h2>Customize Your Game</h2>
+                <p>Work with a grown-up to flip through cards together.
+                If you correctly name the item on the card, click ✅ to celebrate!
+                If you’re unsure, feel free to skip and try the next one — learning is a journey!</p>
+
                 <p>Select the types of cards to include:</p>
                 <label><input type="checkbox" id="include-digits" checked> Digits</label><br>
                 <label><input type="checkbox" id="include-lowercase" checked> Lowercase Letters</label><br>
                 <label><input type="checkbox" id="include-uppercase" checked> Uppercase Letters</label><br>
-                <label><input type="checkbox" id="include-words" checked> Sight Words (CVC Words)</label><br>
+                <label><input type="checkbox" id="include-words" checked> Sight Words</label><br>
                 <button class="btn" id="start-btn" aria-label="Start the game">Start Game</button>
             </div>
 
