@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
         <meta name="description" content="A fun and interactive flash card game with customizable rules.">
         <title>Flash Card Game</title>
         <link rel="stylesheet" href="css/flash-cards.css">
@@ -42,14 +42,24 @@
             <div id="rules-screen">
                 <p>Work with a grown-up to flip through cards together.
                 If you correctly name the item on the card, click ✅ to celebrate!
-                If you’re unsure, feel free to skip and try the next one — learning is a journey!</p>
+                If you don't know, skip the card and try the next one — learning is a journey!</p>                
+                <p><strong>Include cards:</strong></p>
+                <div id="number-options">
+                <label><input type="checkbox" name="number-set" id="include-0-10"> Numbers 0–10</label><br>
+                <label><input type="checkbox" name="number-set" id="include-0-100" checked> Numbers 0–100</label>
+                </div>
 
-                <p>Select the types of cards to include:</p>
-                <label><input type="checkbox" id="include-digits" checked> Digits</label><br>
-                <label><input type="checkbox" id="include-lowercase" checked> Lowercase Letters</label><br>
-                <label><input type="checkbox" id="include-uppercase" checked> Uppercase Letters</label><br>
-                <label><input type="checkbox" id="include-words" checked> Sight Words</label><br>
+                <label><input type="checkbox" id="include-lowercase" checked> Lowercase Letters</label>
+                <label><input type="checkbox" id="include-uppercase" checked> Uppercase Letters</label>
+                <label><input type="checkbox" id="include-words" checked> Sight Words</label>
+                <label>
+                    <input type="checkbox" name="number-set" id="include-custom">
+                    Custom Set (<span id="edit-custom" class="edit-link">Edit</span>)
+                </label>
+
+
                 <button class="btn" id="start-btn" aria-label="Start the game">Start Game</button>
+
             </div>
 
             <div id="finish-message">
@@ -63,7 +73,7 @@
             </button>
 
             <!-- Flash card display -->
-            <div id="flash-card" style="display: none;">A</div>
+            <p id="flash-card" style="display: none;">A</p>
 
             <div id="game-controls" style="display: none;">
                 <button class="btn" id="remove-btn" aria-label="Remove card">
@@ -79,6 +89,17 @@
                 <div class="progress-spot" id="spot-4">4</div>
                 <div class="progress-spot" id="spot-5">5</div>
             </div>
+
+            <!-- Custom input modal -->
+            <div id="custom-set-modal" class="modal hidden">
+                <div class="modal-content">
+                    <span class="close-btn" id="close-custom-set">&times;</span>
+                    <p>Enter custom flash cards (comma-separated):</p>
+                    <input type="text" id="custom-set-input" placeholder="e.g., A, b, Dog, 42, 😊">
+                    <button id="apply-custom-set">Apply</button>
+                </div>
+            </div>
+
         </div>
 
         <!-- Footer -->

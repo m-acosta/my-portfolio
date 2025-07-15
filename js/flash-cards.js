@@ -5,9 +5,16 @@ const gameControls = document.getElementById('game-controls');
 const nextBtn = document.getElementById('next-btn');
 const removeBtn = document.getElementById('remove-btn');
 const progressBar = document.getElementById('progress-bar');
+const customCheckbox = document.getElementById('include-custom');
+const customModal = document.getElementById('custom-set-modal');
+const customInput = document.getElementById('custom-set-input');
+const applyCustomBtn = document.getElementById('apply-custom-set');
+const closeCustomModal = document.getElementById('close-custom-set');
+const include0to10 = document.getElementById('include-0-10');
+const include0to100 = document.getElementById('include-0-100');
+const editCustomLink = document.getElementById('edit-custom');
 
 // Card data
-const digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 const lowercase = 'abcdefghijklmnopqrstuvwxyz'.split('');
 const uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 const words = [
@@ -20,20 +27,70 @@ const finishMessage = document.getElementById('finish-message');
 
 let cardDeck = [];
 let currentCardIndex = 0;
+let customSet = [];
+
+// Open modal when checkbox is checked
+customCheckbox.addEventListener('change', () => {
+    if (customCheckbox.checked) {
+        customModal.classList.remove('hidden');
+    }
+});
+
+editCustomLink.addEventListener('click', (event) => {
+    event.preventDefault();         // Prevent any default link behavior
+    event.stopPropagation();        // Prevent triggering the label/checkbox toggle
+    customModal.classList.remove('hidden');
+});
+
+// Close modal
+closeCustomModal.addEventListener('click', () => {
+    customModal.classList.add('hidden');
+});
+
+// Apply custom set
+applyCustomBtn.addEventListener('click', () => {
+    const rawInput = customInput.value;
+    customSet = rawInput.split(',').map(item => item.trim()).filter(Boolean);
+    customModal.classList.add('hidden');
+});
+
+include0to10.addEventListener('change', () => {
+    if (include0to10.checked) {
+        include0to100.checked = false;
+    }
+});
+
+include0to100.addEventListener('change', () => {
+    if (include0to100.checked) {
+        include0to10.checked = false;
+    }
+});
 
 // Start game
 startBtn.addEventListener('click', () => {
-    const includeDigits = document.getElementById('include-digits').checked;
+    const include0to10 = document.getElementById('include-0-10').checked;
+    const include0to100 = document.getElementById('include-0-100').checked;
     const includeLowercase = document.getElementById('include-lowercase').checked;
     const includeUppercase = document.getElementById('include-uppercase').checked;
     const includeWords = document.getElementById('include-words').checked;
+    const includeCustom = document.getElementById('include-custom').checked;
 
-    // Build the card deck
     cardDeck = [];
-    if (includeDigits) cardDeck = cardDeck.concat(digits);
+
+    if (include0to10) {
+        cardDeck = cardDeck.concat(['0','1','2','3','4','5','6','7','8','9','10']);
+    }
+    if (include0to100) {
+        for (let i = 0; i <= 100; i++) {
+            cardDeck.push(i.toString());
+        }
+    }
     if (includeLowercase) cardDeck = cardDeck.concat(lowercase);
     if (includeUppercase) cardDeck = cardDeck.concat(uppercase);
     if (includeWords) cardDeck = cardDeck.concat(words);
+    if (includeCustom && customSet.length > 0) {
+        cardDeck = cardDeck.concat(customSet);
+    }
 
     // Shuffle the deck
     cardDeck = cardDeck.sort(() => Math.random() - 0.5);
