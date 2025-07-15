@@ -50,7 +50,37 @@ const selectionStatus = {
     preposition: true
 };
 
+const stories = [
+  (subject, verb, preposition, place) => [
+    `Once upon a time ${preposition} the ${place}, there lived a ${subject}.`,
+    `The ${place} was not very big.`,
+    `Soon, everyone learned about the ${subject} and told stories.`,
+    `And so, the tale of the ${subject} that ${verb} was told for generations.`
+  ],
+
+  (subject, verb, preposition, place) => [
+    `Once upon a time, a ${subject} dreamed of adventures.`,
+    `One day, the ${subject} built up the courage to ${getBaseVerb(verb)}.`,
+    `The ${place} was filled with magic and mystery.`,
+    `Nobody in the ${place} would forget that day.`
+  ],
+
+  (subject, verb, preposition, place) => [
+    `Once upon a time, a ${subject} lived ${preposition} the ${place}.`,
+    `The ${subject} ${verb} every day.`,
+    `But each day brought a new surprise to the ${subject}.`,
+    `Some days, a friendly lion would join in.`,
+    `Oh, what fun they had!`
+  ],
+];
+
 let sentenceCount = 0; // Counter for the number of sentences read
+let currentStoryIndex = Math.floor(Math.random() * stories.length); // Index to track the current story
+
+function getBaseVerb(verb) {
+  if (verb.endsWith('s')) return verb.slice(0, -1);
+  return verb;
+}
 
 // Function to check if all blanks have been filled
 function checkAllSelected() {
@@ -206,6 +236,7 @@ Object.keys(blanks).forEach(id => {
 
 
 readBtn.addEventListener('click', () => {
+    readBtn.style.display = 'none'; // Hide the Read button
     speechSynthesis.cancel(); // Stop any ongoing speech synthesis
 
     const subjectText = document.getElementById('subject').textContent.trim();
@@ -213,7 +244,9 @@ readBtn.addEventListener('click', () => {
     const placeText = document.getElementById('place').textContent.trim();
     const prepositionText = document.getElementById('preposition').textContent.trim();
 
-    const sentenceText = `The ${subjectText} ${verbText} ${prepositionText} the ${placeText}.`;
+    const currentStory = stories[currentStoryIndex];
+    const storySentences = currentStory(subjectText, verbText, prepositionText, placeText);
+    const sentenceText = storySentences.join(' ');
 
     // Hide book layout
     bookLayout.style.display = 'none';
@@ -238,4 +271,6 @@ readBtn.addEventListener('click', () => {
     };
 
     speechSynthesis.speak(utter);
+
+    currentStoryIndex = (currentStoryIndex + 1) % stories.length;
 });
