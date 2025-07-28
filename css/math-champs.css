@@ -1,0 +1,359 @@
+/* General body styles */
+body {
+    font-family: 'Patrick Hand', Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    background-image: url('../img/field-water-victoria-lucero.JPG');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-blend-mode: overlay;
+    background-color: rgba(255, 255, 255, 0.4);
+}
+
+/* Game container styles */
+#game-container {
+    width: 60%;
+    margin: 20px auto;
+    border: 2px solid #000;
+    position: relative;
+    background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    height: auto;
+    min-height: 500px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Rules screen styles */
+#rules-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.9);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+/* Styles for the start button */
+.start-btn {
+    font-family: 'Patrick Hand', Arial, sans-serif;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 5px;
+    background-color: #6ab6b4;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+.start-btn:hover,
+.start-btn:focus {
+    background-color: #559999;
+    outline: none;
+}
+
+/* Quiz screen styles */
+#quiz-screen {
+    margin-top: 20px;
+    width: 100%;
+    max-width: 600px;
+    position: relative;
+    z-index: 20;
+}
+
+.question-text {
+    font-family: 'Patrick Hand', cursive;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: #6e6295;
+    min-height: 60px; /* Keep space stable between questions */
+}
+
+.choices-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.choice-btn {
+  background-color: #6ab6b4;
+  color: white;
+  font-family: 'Patrick Hand', cursive, sans-serif;
+  font-size: 1.6rem;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+  transition: background-color 0.25s ease, transform 0.15s ease;
+  min-width: 120px;
+  user-select: none;
+}
+
+.choice-btn:hover,
+.choice-btn:focus {
+  background-color: #5a9b99;
+  outline: none;
+  transform: scale(1.05);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.25);
+}
+
+.choice-btn:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+/* Correct answer styling */
+.choice-btn.correct {
+    background-color: #4CAF50; /* Green */
+    box-shadow: 0 0 10px #4CAF50;
+    color: white;
+}
+
+/* Wrong answer styling */
+.choice-btn.wrong {
+    background-color: #f44336; /* Red */
+    box-shadow: 0 0 10px #f44336;
+    color: white;
+}
+
+#next-btn,
+#play-again-btn {
+    padding: 12px 30px;
+    font-family: 'Patrick Hand', cursive;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 12px;
+    background-color: #6e6295;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+#next-btn:hover:not(:disabled),
+#next-btn:focus:not(:disabled),
+#play-again-btn:hover,
+#play-again-btn:focus {
+    background-color: #5a517c;
+    outline: none;
+}
+
+#next-btn:disabled {
+    background-color: #aaa;
+    cursor: default;
+}
+
+/* Score text */
+.score-text {
+    font-weight: bold;
+    font-size: 1.3rem;
+    color: #6e6295;
+    min-height: 28px; /* reserve space for smoother layout */
+    margin-top: 10px;
+}
+
+/* Footer styles */
+footer {
+    margin-top: 20px;
+    font-size: 0.6rem;
+    color: #555;
+}
+
+/* Media query for smaller screens (e.g., tablets) */
+@media (max-width: 768px) {
+    #game-container {
+        width: 90%;
+        padding: 15px;
+        min-height: 400px;
+    }
+    .question-text {
+        font-size: 1.3rem;
+    }
+    .choice-btn {
+        font-size: 1.1rem;
+        padding: 10px 18px;
+    }
+    #next-btn {
+        font-size: 1.1rem;
+        padding: 10px 24px;
+    }
+}
+
+/* Media query for very small screens (e.g., phones) */
+@media (max-width: 480px) {
+    #game-container {
+        width: 100%;
+        padding: 10px;
+        min-height: 300px;
+    }
+    .question-text {
+        font-size: 1.1rem;
+    }
+    .choice-btn {
+        font-size: 1rem;
+        padding: 8px 16px;
+    }
+    #next-btn {
+        font-size: 1rem;
+        padding: 8px 20px;
+    }
+}
+
+/* Media query for very small screens in landscape orientation */
+@media (max-width: 1080px) and (orientation: landscape) {
+    #game-container {
+        width: 100%;
+        padding: 5px;
+        min-height: 100vh;
+        overflow-y: auto;
+        transform: scale(0.8);
+        transform-origin: top center;
+    }
+}
+
+.sequence-row {
+	display: flex;
+	justify-content: center;
+	gap: 1rem;
+	margin-bottom: 1.5rem;
+}
+
+.sequence-box {
+	width: 60px;
+	height: 60px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 1.5rem;
+	font-weight: bold;
+	border: 2px solid var(--clr-dark, #6e6295);
+	background-color: var(--clr-light, #f9f1f0);
+	border-radius: 10px;
+	box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.math-visual {
+    display: flex;
+    justify-content: center;
+    margin: 1rem 0;
+}
+
+.math-grid-row {
+    display: flex;
+    gap: 2rem;
+}
+
+.math-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.math-number {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+.shape-box {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(20px, 1fr));
+    gap: 6px;
+    width: 100px;
+    height: 100px;
+    border: 2px solid var(--clr-dark, #6e6295);
+    background-color: #fff;
+    padding: 6px;
+    box-sizing: border-box;
+    place-items: center;
+}
+
+.shape {
+    width: 20px;
+    height: 20px;
+}
+
+.shape-circle {
+    border-radius: 50%;
+}
+
+.shape-square {
+    /* already square */
+}
+
+.shape-triangle {
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 20px solid #000; /* color overridden by JS */
+    background: none;
+}
+
+.shape-visual {
+	display: flex;
+	justify-content: center;
+	margin-top: 1rem;
+	margin-bottom: 1.5rem;
+}
+
+.single-shape-box {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 1rem;
+	border-radius: 1rem;
+	background-color: #f9f1f0;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+	width: 200px;
+	height: 200px;
+}
+
+/* Consistent shape sizes */
+.large-shape.shape-circle,
+.large-shape.shape-square {
+	width: 140px;
+	height: 140px;
+}
+
+/* Triangle needs fixed pixel borders */
+.large-shape.shape-triangle {
+	width: 0;
+	height: 0;
+	border-left: 70px solid transparent;
+	border-right: 70px solid transparent;
+	border-bottom: 140px solid; /* color set dynamically */
+}
+
+.large-shape.shape-rectangle {
+	width: 160px;
+	height: 100px;
+	border-radius: 0.5rem; /* optional: just to soften the corners */
+}
+
+#trophy-img {
+  width: 450px;
+  height: 450px;
+  object-fit: contain; /* Keeps aspect ratio without distortion */
+  display: block;
+  margin: 0 auto; /* Optional: center horizontally */
+}

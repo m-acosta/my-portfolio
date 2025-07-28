@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Math Champs: A fun and interactive first-grade math game with customizable rules and a beautiful design." />
+  <title>Math Champs | The Learning Spot</title>
+  <!-- Include Patrick Hand font from Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/math-champs.css" />
+  <link rel="stylesheet" href="css/shared.css" />
+</head>
+<body>
+  <header class="share-header" role="banner">
+    <a href="the-learning-spot.html" class="home-button" aria-label="Go to The Learning Spot Home">
+      <img src="img/the-learning-spot-logo-rectangle.png" alt="The Learning Spot Home" />
+    </a>
+    <!-- Share Button -->
+    <button id="share-btn" class="share-btn" aria-label="Share Math Champs game link" aria-haspopup="true" aria-controls="share-menu">
+      <div class="share-icon" aria-hidden="true">📤</div>
+      <div class="share-label">Share</div>
+    </button>
+  </header>
+
+  <!-- Main heading -->
+  <main id="main" role="main" tabindex="-1">
+    <h1>🏆 Math Champs 🏆</h1>
+
+    <!-- Game container -->
+    <div id="game-container">
+      <!-- Rules screen -->
+      <section id="rules-screen" role="region" aria-labelledby="rules-title">
+        <h2 id="rules-title">Let's play!</h2>
+        <p>Answer the questions by selecting the correct choice.</p>
+        <button
+          class="start-btn"
+          id="start-btn"
+          aria-label="Start the Math Champs game"
+          aria-describedby="rules-desc"
+        >
+          Start Game
+        </button>
+      </section>
+
+      <!-- Quiz screen (hidden at start) -->
+      <section
+        id="quiz-screen"
+        role="region"
+        aria-live="polite"
+        aria-atomic="true"
+        aria-labelledby="quiz-title"
+        hidden
+      >
+        <p id="question-text" class="question-text" tabindex="0" aria-live="assertive" aria-atomic="true"></p>
+        <div id="sequence-row" class="sequence-row" style="display: none;"></div>
+
+        <div
+          id="choices-container"
+          class="choices-container"
+          role="list"
+          aria-label="Answer choices"
+        ></div>
+
+        <button id="next-btn" disabled aria-label="Next question">Next</button>
+        <p id="score-text" class="score-text" aria-live="polite" aria-atomic="true"></p>
+      </section>
+
+      <div id="reward-screen" class="screen" hidden>
+        <h2 id="reward-message">Great job! You earned a new trophy!</h2>
+        <img id="trophy-img" src="trophy1.png" alt="Trophy" class="trophy" />
+        <button id="play-again-btn">Play Again</button>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer role="contentinfo">
+    <p>Background image: Victoria Lucero</p>
+  </footer>
+
+  <script src="js/math-champs.js"></script>
+  <script src="js/share-button.js" defer></script>
+</body>
+</html>
