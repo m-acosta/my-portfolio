@@ -9,21 +9,26 @@ const readingScreen = document.getElementById('reading-screen');
 const nextBtn = document.getElementById('next-btn');
 const medalDivs = document.querySelectorAll('.reading-content.medal');
 
-const subjects = ['pirate', 'robot', 'unicorn', 'cat'];
+const subjects = ['pirate', 'robot', 'unicorn', 'cat', 'dragon', 'dog', 'monkey', 'tiger'];
 const subjectImages = [
     "../img/story-builder/pirate.png",
     "../img/story-builder/robot.png",
     "../img/story-builder/unicorn.png",
     "../img/story-builder/cat.png",
+    "../img/story-builder/dragon.png",
+    "../img/story-builder/dog.png",
+    "../img/story-builder/monkey.png",
+    "../img/story-builder/tiger.png",
 ];
 const verbs = ['juggles', 'dances', 'sings', 'builds'];
-const prepositions = ['in', 'on', 'at', 'near'];
-const places = ['library', 'moon', 'zoo', 'castle'];
+const prepositions = ['in', 'on', 'at', 'near', 'at'];
+const places = ['library', 'moon', 'zoo', 'castle', 'playground'];
 const placeImages = [
     "../img/story-builder/library.png",
     "../img/story-builder/moon.png",
     "../img/story-builder/zoo.png",
     "../img/story-builder/castle.png",
+    "../img/story-builder/playground.png",
 ];
 
 // Initialize a current index for each category (subject, verb, place)
