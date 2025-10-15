@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+        <meta name="description" content="A fun and interactive flash card game with customizable rules.">
+        <title>Flash Card Game</title>
+        <link rel="stylesheet" href="css/flash-cards-first-grade.css">
+        <link rel="stylesheet" href="css/shared.css">
+        <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    </head>
+    <body>
+        <header class="share-header">
+            <a href="the-learning-spot.html" class="home-button" aria-label="Home">
+                <img src="img/the-learning-spot-logo-rectangle.png" alt="The Learning Spot Home" />
+            </a>
+            <button id="share-btn" class="share-btn" aria-label="Share game link">
+                <div class="share-icon">📤</div>
+                <div class="share-label">Share</div>
+            </button>
+        </header>
+
+        <!-- Main heading -->
+        <h1>🎉 Flash Card Game 🎉</h1>
+
+        <!-- Share Modal -->
+        <div id="shareModal" class="share-modal">
+            <div class="modal-content">
+                <span id="closeModal" class="close-btn">&times;</span>
+                <p>Copy this game link:</p>
+                <input type="text" id="gameLink" readonly>
+                <button onclick="copyGameLink()">Copy</button>
+                <div id="copyConfirm" class="copy-confirm">Link copied!</div>
+            </div>
+        </div>
+
+
+        <!-- Game container -->
+        <div id="game-container">
+            <!-- Rules screen -->
+            <div id="rules-screen">
+                <p>This game is specially designed for 1st graders in Ms. Rivlin's class!
+                The benchmark high frequency word list are available in any combination, grouped as Ms. Rivlin laid out.
+                Work together as a family to master these words.</p>                
+                <p><strong>Include cards:</strong></p>
+                <div id="number-options">
+                    <label><input type="checkbox" name="number-set" id="first-set" checked> 1st set - 30 words (target for Oct. 25, 2025)</label><br>
+                    <label><input type="checkbox" name="number-set" id="second-set"> 2nd set - 34 words (target for Feb. 26, 2026)</label><br>
+                    <label><input type="checkbox" name="number-set" id="third-set"> 3rd set - 60 words (target for May 26, 2026)</label><br>
+                    <label>
+                        <input type="checkbox" name="number-set" id="include-custom">
+                        Custom Set (<span id="edit-custom" class="edit-link">Edit</span>)
+                    </label><br>
+                    <button class="btn" id="start-btn" aria-label="Start the game">Start Game</button>
+                </div>
+            </div>
+
+            <div id="finish-message">
+                🎉 You finished all the cards!...
+            </div>
+
+            <!-- Next card button -->
+            <button class="btn" id="next-btn" aria-label="Next card" style="display: none;">
+                SKIP <i class="fas fa-arrow-right"></i>
+            </button>
+
+            <!-- Flash card display -->
+            <p id="flash-card" style="display: none;">A</p>
+
+            <div id="game-controls" style="display: none;">
+                <button class="btn" id="remove-btn" aria-label="Remove card">
+                    <i class="fas fa-check"></i>
+                </button>
+            </div>
+
+            <!-- Progress bar -->
+            <div id="progress-bar" style="display: none;">
+                <div class="progress-spot" id="spot-1">1</div>
+                <div class="progress-spot" id="spot-2">2</div>
+                <div class="progress-spot" id="spot-3">3</div>
+                <div class="progress-spot" id="spot-4">4</div>
+                <div class="progress-spot" id="spot-5">5</div>
+            </div>
+
+            <!-- Custom input modal -->
+            <div id="custom-set-modal" class="modal hidden">
+                <div class="modal-content">
+                    <span class="close-btn" id="close-custom-set">&times;</span>
+                    <p>Enter custom flash cards (comma-separated):</p>
+                    <input type="text" id="custom-set-input" placeholder="e.g., A, b, Dog, 42, 😊">
+                    <button id="apply-custom-set">Apply</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <p>Background image: Victoria Lucero</p>
+        </footer>
+
+        <script src="/js/flash-cards-first-grade.js"></script>
+        <script src="/js/share-button.js" defer></script>
+    </body>
+</html>
