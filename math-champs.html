@@ -11,20 +11,31 @@
   <link rel="stylesheet" href="css/shared.css" />
 </head>
 <body>
-  <header class="share-header" role="banner">
-    <a href="the-learning-spot.html" class="home-button" aria-label="Go to The Learning Spot Home">
-      <img src="img/the-learning-spot-logo-rectangle.png" alt="The Learning Spot Home" />
-    </a>
-    <!-- Share Button -->
-    <button id="share-btn" class="share-btn" aria-label="Share Math Champs game link" aria-haspopup="true" aria-controls="share-menu">
-      <div class="share-icon" aria-hidden="true">📤</div>
-      <div class="share-label">Share</div>
-    </button>
+  <header class="share-header">
+      <a href="the-learning-spot.html" class="home-button" aria-label="Home">
+          <img src="img/the-learning-spot-logo-rectangle.png" alt="The Learning Spot Home" />
+      </a>
+      <button id="share-btn" class="share-btn" aria-label="Share game link">
+          <div class="share-icon">📤</div>
+          <div class="share-label">Share</div>
+      </button>
   </header>
+
+  <h1>🏆 Math Champs 🏆</h1>
+
+  <!-- Share Modal -->
+  <div id="shareModal" class="share-modal">
+      <div class="modal-content">
+          <span id="closeModal" class="close-btn">&times;</span>
+          <p>Copy this game link:</p>
+          <input type="text" id="gameLink" readonly>
+          <button onclick="copyGameLink()">Copy</button>
+          <div id="copyConfirm" class="copy-confirm">Link copied!</div>
+      </div>
+  </div>
 
   <!-- Main heading -->
   <main id="main" role="main" tabindex="-1">
-    <h1>🏆 Math Champs 🏆</h1>
 
     <!-- Game container -->
     <div id="game-container">
