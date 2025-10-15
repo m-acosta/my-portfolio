@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="A fun and interactive game with customizable rules and a beautiful design.">
+        <title>New Game</title>
+        <!-- Include Patrick Hand font from Google Fonts -->
+        <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="css/daily-writing-garden.css">
+        <link rel="stylesheet" href="css/shared.css">
+    </head>
+    <body>
+        <header class="share-header">
+            <a href="the-learning-spot.html" class="home-button" aria-label="Home">
+                <img src="img/the-learning-spot-logo-rectangle.png" alt="The Learning Spot Home" />
+            </a>
+            <button id="share-btn" class="share-btn" aria-label="Share game link">
+                <div class="share-icon">📤</div>
+                <div class="share-label">Share</div>
+            </button>
+        </header>
+
+        <h1>📖 Daily Writing Garden 🌿</h1>
+
+        <!-- Share Modal -->
+        <div id="shareModal" class="share-modal">
+            <div class="modal-content">
+                <span id="closeModal" class="close-btn">&times;</span>
+                <p>Copy this game link:</p>
+                <input type="text" id="gameLink" readonly>
+                <button onclick="copyGameLink()">Copy</button>
+                <div id="copyConfirm" class="copy-confirm">Link copied!</div>
+            </div>
+        </div>
+
+        <!-- Game container -->
+        <div id="game-container">
+            <!-- Rules screen -->
+            <div id="rules-screen">
+                <p>Write your best and watch your tree grow from a 🌱 tiny seed to 🌳 tall, leafy tree! Every time you write, we look at 4 important things:</p>
+
+                <p><strong>Punctuation:</strong> Do your sentences end with the right punctuation and start with capitals?</p>
+                <p><strong>Vocabulary:</strong> Are you using different and interesting words?</p>
+                <p><strong>Sentence Structure:</strong> Are your sentences complete and varied?</p>
+                <p><strong>Effort:</strong> Did you write enough? Try for at least 4 sentences.</p>
+
+                <p><strong>A Note About Being Perfect:</strong> We want you to do your very best. Writing can always be improved, and you can go back and fix your work anytime. That’s what great writers do!</p>
+                <button class="start-btn" id="start-btn" aria-label="Start the game">Start Game</button>
+            </div>
+
+            <!-- Writing Prompt & Response -->
+            <section id="writing-screen" style="display: none;">
+                <div id="prompt-box" class="prompt-box">
+                    <p id="writing-prompt">Loading prompt...</p>
+                </div>
+
+                <textarea id="writing-input" placeholder="Start writing your story here..." rows="8"></textarea>
+
+                <button id="submit-btn" class="submit-btn">Submit</button>
+
+                <!-- Feedback & Tree Growth -->
+                <div id="feedback-container" class="feedback-container" style="display: none;">
+                    <div id="tree-stage"></div>
+                    <div id="feedback-text"></div>
+                    <div class="feedback-buttons">
+                        <button id="edit-btn" class="edit-btn">✏️ Edit Response</button>
+                        <button id="try-again-btn" class="try-again-btn">Try Another Prompt</button>
+                    </div>
+                </div>
+
+            </section>
+        </div>
+
+        <script src="js/daily-writing-garden.js"></script>
+        <script src="/js/share-button.js" defer></script>
+    </body>
+</html>
