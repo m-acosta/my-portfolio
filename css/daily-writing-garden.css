@@ -1,0 +1,290 @@
+/* General body styles */
+/* ✳️ Color palette root variables */
+:root {
+    --leaf-green: #7ca982;
+    --moss-green: #cfe3d7;
+    --earth-brown: #4e342e;
+    --forest-green: #2e7d32;
+    --sunshine-gold: #a67c00;
+    --soft-beige: #fdfaf6;
+    --cloud-white: rgba(255, 255, 255, 0.9);
+}
+
+body {
+    font-family: 'Patrick Hand', Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    background-image: url('../img/tree-background.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-blend-mode: overlay;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Game container styles */
+#game-container {
+    width: 60%;
+    margin: 20px auto;
+    border: 2px solid #000;
+    position: relative;
+    background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    overflow-y: auto;               /* Enable vertical scrolling */
+    height: 90vh;                   /* Make it taller relative to viewport */
+    max-height: 100vh;
+    min-height: 700px;              /* Increased min-height */
+    padding: 20px;
+    box-sizing: border-box;
+    scroll-behavior: smooth;        /* Smooth scrolling experience */
+}
+
+
+/* Rules screen styles */
+#rules-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.9);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+/* Common button styles */
+.button {
+    font-family: 'Patrick Hand', Arial, sans-serif;
+    padding: 12px 24px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin: 0.5rem;
+    background-color: var(--leaf-green);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.button:hover {
+    background-color: #5e7f6f;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.button:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+/* Footer styles */
+footer {
+    margin-top: 20px;
+    font-size: 0.6rem;
+    color: #555;
+}
+
+@media (max-width: 768px) {
+    #game-container {
+        width: 90%;
+        padding: 15px;
+        height: 90vh;
+        min-height: 600px;
+    }
+}
+
+@media (max-width: 480px) {
+    #game-container {
+        width: 100%;
+        padding: 10px;
+        height: 90vh;
+        min-height: 500px;
+    }
+}
+
+
+/* Media query for very small screens in landscape orientation */
+@media (max-width: 1080px) and (orientation: landscape) {
+    #game-container {
+        width: 100%;
+        padding: 5px;
+        min-height: 100vh;
+        overflow-y: auto;
+        transform: scale(0.8);
+        transform-origin: top center;
+    }
+}
+
+#rules-screen h1,
+#rules-screen h2,
+#rules-screen h3,
+#rules-screen h4,
+#rules-screen p {
+    max-width: 700px;   /* or whatever width you prefer */
+    width: 100%;
+    text-align: left;
+    margin: 0;
+    line-height: 2;
+}
+
+/* ✨ Title */
+h1 {
+    color: var(--forest-green);
+    font-size: 2.2rem;
+    margin-top: 1.2rem;
+}
+
+/* 📜 Rules text */
+#rules-screen p {
+    color: var(--earth-brown);
+    background-color: var(--soft-beige);
+    padding: 0.5rem 1rem;
+    border-left: 5px solid var(--leaf-green);
+    border-radius: 6px;
+    margin: 0.5rem 0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+/* ✅ Start Button */
+.start-btn {
+    font-family: 'Patrick Hand', Arial, sans-serif;
+    padding: 12px 24px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin: 0.5rem;
+    background-color: var(--leaf-green);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.start-btn:hover {
+    background-color: #5e7f6f;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.start-btn:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+/* ✍️ Textarea */
+#writing-input {
+    width: 90%;
+    font-size: 1rem;
+    padding: 0.8rem;
+    margin: 1rem 0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+}
+
+/* 📦 Prompt Box */
+.prompt-box {
+    background-color: var(--moss-green);
+    border-left: 6px solid var(--leaf-green);
+    padding: 1rem;
+    border-radius: 8px;
+    margin: 1rem 0;
+    color: var(--earth-brown);
+}
+
+/* 🧾 Submit & Try Again Buttons */
+.submit-btn,
+.try-again-btn {
+    font-family: 'Patrick Hand', Arial, sans-serif;
+    padding: 12px 24px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin: 0.5rem;
+    background-color: var(--leaf-green);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.submit-btn:hover,
+.try-again-btn:hover {
+    background-color: #5e7f6f;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.submit-btn:active,
+.try-again-btn:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+/* 🌳 Feedback Container */
+.feedback-container {
+    background-color: var(--soft-beige);
+    border: 2px dashed var(--leaf-green);
+    padding: 1rem;
+    border-radius: 12px;
+    margin-top: 1rem;
+    color: var(--earth-brown);
+}
+
+#tree-stage img {
+    max-width: 150px;
+    display: block;
+    margin: 0 auto 1rem;
+}
+
+.feedback-container {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.feedback-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+#tree-stage {
+    transition: opacity 0.3s ease-in-out;
+}
+
+#feedback-text {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    text-align: center;
+}
+
+.edit-btn {
+    display: inline-block;
+    font-family: 'Patrick Hand', Arial, sans-serif;
+    padding: 12px 24px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin: 0.5rem;
+    background-color: var(--leaf-green);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.edit-btn:hover {
+    background-color: #5e7f6f;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.edit-btn:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
